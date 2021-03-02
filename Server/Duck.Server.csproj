@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.30" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.2" />
+    <PackageReference Include="Refit" Version="6.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Duck.Client.csproj" />
+    <ProjectReference Include="..\Shared\Duck.Shared.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<Watch Include="..\Client\**\*.razor" />
+	</ItemGroup>
+
+</Project>

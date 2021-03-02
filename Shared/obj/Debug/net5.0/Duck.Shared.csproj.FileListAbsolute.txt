@@ -1,0 +1,12 @@
+E:\studyc#v2\Duck\Shared\bin\Debug\net5.0\Duck.Shared.deps.json
+E:\studyc#v2\Duck\Shared\bin\Debug\net5.0\Duck.Shared.dll
+E:\studyc#v2\Duck\Shared\bin\Debug\net5.0\ref\Duck.Shared.dll
+E:\studyc#v2\Duck\Shared\bin\Debug\net5.0\Duck.Shared.pdb
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.csprojAssemblyReference.cache
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.AssemblyInfoInputs.cache
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.AssemblyInfo.cs
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.csproj.CoreCompileInputs.cache
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.dll
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\ref\Duck.Shared.dll
+E:\studyc#v2\Duck\Shared\obj\Debug\net5.0\Duck.Shared.pdb

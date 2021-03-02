@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duck.Server", "Server\Duck.Server.csproj", "{E09DBBA4-06EA-4513-9B8D-9E22C8E55541}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duck.Client", "Client\Duck.Client.csproj", "{DC7C8033-C119-4430-9A19-CD901D43A9E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duck.Shared", "Shared\Duck.Shared.csproj", "{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E09DBBA4-06EA-4513-9B8D-9E22C8E55541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09DBBA4-06EA-4513-9B8D-9E22C8E55541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09DBBA4-06EA-4513-9B8D-9E22C8E55541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09DBBA4-06EA-4513-9B8D-9E22C8E55541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7C8033-C119-4430-9A19-CD901D43A9E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7C8033-C119-4430-9A19-CD901D43A9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7C8033-C119-4430-9A19-CD901D43A9E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7C8033-C119-4430-9A19-CD901D43A9E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D08267A-CF83-4A77-86B2-516BE47C6FFB}
+	EndGlobalSection
+EndGlobal
