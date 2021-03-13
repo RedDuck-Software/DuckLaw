@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>ea3a36a5-01b7-4735-a9fe-9bfc22eb11e3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,9 @@
   </ItemGroup>
 	<ItemGroup>
 		<Watch Include="..\Client\**\*.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

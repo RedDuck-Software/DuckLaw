@@ -1,8 +1,11 @@
 ﻿@page "/"
+@using MudBlazor
 @inject Duck.Client.Service.IService serv
 @inject NavigationManager NavigationManager
+@inject HttpClient client
+@using Duck.Shared
+@using System.IO
 <link href="css/UserForm.css" rel="stylesheet" />
-
 
 <EditForm Model="@render" OnValidSubmit="Create">
     <div id="login-box">
@@ -39,16 +42,46 @@
                 </InputSelect>
             </div>
             <input @bind-value="render.Text" id="Search" type="text" name="text" placeholder="Поиск в тексте решения" />
-            <input type="submit" name="signup_submit" value="Отправить" />
+            <input id="submit" type="submit" name="signup_submit" value="Отправить" />
         </div>
     </div>
+    <label id="InputLabel"
+           for="InputFile">
+        Загрузить <MudIcon Icon="@Icons.Filled.CloudUpload" />
+    </label>
+    <InputFile id="InputFile" OnChange="OnInputFileChange" hidden multiple></InputFile>
 </EditForm>
 
 @code {
     Duck.Shared.Render render = new Duck.Shared.Render();
+
     async Task Create()
     {
-        await serv.CreateNewBlogPost(render);
-        NavigationManager.NavigateTo("/Result");
+        foreach (var file in selectedFiles)
+        {
+            Stream stream = file.OpenReadStream();
+            MemoryStream ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            stream.Close();
+            Random rnd = new Random();
+            UploadedFile uploadedFile = new UploadedFile();
+            Guid g = Guid.NewGuid();
+            uploadedFile.FileName = Convert.ToString(g) + file.Name;
+            uploadedFile.FileContent = ms.ToArray();
+            ms.Close();
+            await client.PostAsJsonAsync<UploadedFile>("/api/fileupload", uploadedFile);
+            Message = $"{selectedFiles.Count} file(s) uploaded on server";
+            this.StateHasChanged();
+            await serv.CreateNewBlogPosttt(render);
+            NavigationManager.NavigateTo("/Result/" + uploadedFile.FileName);
+        }
+    }
+    string Message = "No file(s) selected";
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        Message = $"{selectedFiles.Count} file(s) selected";
+        this.StateHasChanged();
     }
 }

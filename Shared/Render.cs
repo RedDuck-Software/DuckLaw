@@ -9,10 +9,11 @@ namespace Duck.Shared
 {
     public class Render
     {
+
         [JsonProperty("number")]
         public string Num { get; set; } /*= "509/4062/20";*/
         [JsonProperty("apiKey")]
-        public string Key = "UyVcQj3XzGaN";
+        public string Key { get; set; } = "UyVcQj3XzGaN";
         [JsonProperty("judgment_code")]
         public int JudgmentCode { get; set; } /*= 3;*/
         [JsonProperty("justice_code")]
@@ -21,7 +22,7 @@ namespace Duck.Shared
         public string Stage { get; set; }
         [JsonProperty("text")]
         public string Text { get; set; }
-        
+        public string Doc { get; set; }        
 
     }
 }

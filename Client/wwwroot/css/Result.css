@@ -30,10 +30,11 @@
     left:400px;
 
 }
+
 input[type="submit"] {
     position: relative;
-    bottom: 100px;
-    left:120px;
+    bottom: 75px;
+    left: 120px;
     margin-top: 100px;
     width: 500px;
     height: 32px;
@@ -47,4 +48,20 @@ input[type="submit"] {
     transition: 0.1s ease;
     cursor: pointer;
 }
-
+#label{
+    position:relative;
+    left:275px;
+}
+#download{
+    position : relative;
+    left:250px;
+}
+#highlight{
+    position:relative;
+    right:250px;
+}
+#u {
+    position: relative;
+    top: 50px;
+    left: 200px;
+}

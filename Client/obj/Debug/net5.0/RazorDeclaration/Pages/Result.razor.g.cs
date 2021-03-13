@@ -82,7 +82,7 @@ using Duck.Client.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Result")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Result/{doc}")]
     public partial class Result : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -90,6 +90,16 @@ using Duck.Client.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 20 "E:\studyc#v2\Duck\Client\Pages\Result.razor"
+       
+    [Parameter]
+    public string doc { get; set; }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Duck.Client.Service.IService serv { get; set; }
     }
 }
 #pragma warning restore 1591

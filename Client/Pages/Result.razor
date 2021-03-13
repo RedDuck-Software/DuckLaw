@@ -1,23 +1,23 @@
-﻿<LoadingScreen>
-    @page "/Result"
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="css/Result.css" rel="stylesheet" />
-
-    <body>
-        <div>
-            <div class="navbar">
-                <a href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
-                <a href="#"><i class="fa fa-fw fa-pencil"></i>Редактировать </a>
-                <a href="#"><i class="fa fa-fw fa-list"></i>Выделить </a>
-            </div>
-            <div id="Area">
-                <p class="col-form-label"> Оставить коментарий для разработчика</p>
-                <textarea  class="tab-content" name="comment" cols="90" rows="5"> </textarea>
-                <input type="submit"/>
-            </div>
+﻿@page "/Result/{doc}"
+@inject Duck.Client.Service.IService serv
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="css/Result.css" rel="stylesheet" />
+<body>
+    <div>
+        <div class="navbar">
+            <a id="download" href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
+            <a id="highlight" href="#"><i class="fa fa-fw fa-pencil"></i>Выделить </a>
         </div>
-    </body>
-    @code {
+        <embed src="@doc" style="position: relative; top: 50px; left: 200px;width:450px; height:300px" />
+        <div class="form-group shadow-textarea" id="Area">
+            <label id="label" for="FormControl" class="text-dark">Оставить комментарий/пожелание </label>
+            <textarea class="form-control z-depth-1" id="FormControl" cols="90" rows="3"></textarea>
+            <input type="submit" />
 
-    }
-</LoadingScreen>
+        </div>
+    </div>
+</body>
+@code {
+    [Parameter]
+    public string doc { get; set; }
+}

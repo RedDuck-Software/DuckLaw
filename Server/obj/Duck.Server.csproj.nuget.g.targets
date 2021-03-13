@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)refit\6.0.15\buildTransitive\netstandard2.0\refit.targets" Condition="Exists('$(NuGetPackageRoot)refit\6.0.15\buildTransitive\netstandard2.0\refit.targets')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.analyzers\5.0.3\buildTransitive\netstandard2.0\Microsoft.AspNetCore.Components.Analyzers.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.analyzers\5.0.3\buildTransitive\netstandard2.0\Microsoft.AspNetCore.Components.Analyzers.targets')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.server\5.0.2\build\Microsoft.AspNetCore.Components.WebAssembly.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.server\5.0.2\build\Microsoft.AspNetCore.Components.WebAssembly.Server.targets')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.analyzers\5.0.2\buildTransitive\netstandard2.0\Microsoft.AspNetCore.Components.Analyzers.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.analyzers\5.0.2\buildTransitive\netstandard2.0\Microsoft.AspNetCore.Components.Analyzers.targets')" />
   </ImportGroup>
 </Project>

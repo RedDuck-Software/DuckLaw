@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.Net.Http; 
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Duck.Shared;
@@ -15,10 +15,16 @@ namespace Duck.Client.Service
         {
             _http = http;
         }
-        public async Task<Render> CreateNewBlogPost(Render request)
+        public async Task<Render> CreateNewBlogPosttt(Render request)
         {
             var result = await _http.PostAsJsonAsync("api/User", request);
             return await result.Content.ReadFromJsonAsync<Render>();
+        }
+        public async Task<Render> GetDoc()
+        {
+            var resut = await _http.GetAsync("api/User");
+            var message = await resut.Content.ReadAsStringAsync();
+            return await resut.Content.ReadFromJsonAsync<Render>();
         }
     }
 }

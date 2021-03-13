@@ -61,3 +61,4 @@ E:\studyc#v2\Duck\Server\obj\Debug\net5.0\Duck.Server.genruntimeconfig.cache
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\Newtonsoft.Json.dll
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\Refit.dll
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\HtmlAgilityPack.dll
+E:\studyc#v2\Duck\Server\bin\Debug\net5.0\MudBlazor.dll
