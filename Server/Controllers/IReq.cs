@@ -10,7 +10,7 @@ namespace Duck.Server.Controllers
 {
     public interface Ireq
     {
-        [Get("/api/v2/court?apiKey=UyVcQj3XzGaN&{request}")]
+        [Get("/api/v2/court?apiKey=d68Uy7PMjD7t&{request}")]
         Task<Root> GetResult([Body] Render request);
     }
 }

@@ -83,6 +83,7 @@ using Duck.Client.Shared;
 #line hidden
 #nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/Result/{doc}")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Result")]
     public partial class Result : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -91,14 +92,19 @@ using Duck.Client.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 20 "E:\studyc#v2\Duck\Client\Pages\Result.razor"
+#line 26 "E:\studyc#v2\Duck\Client\Pages\Result.razor"
        
     [Parameter]
     public string doc { get; set; }
+    protected async void OnInitializedAsync(MouseEventArgs arg)
+    {
+        await js.InvokeVoidAsync("Test");
+    }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private Duck.Client.Service.IService serv { get; set; }
     }
 }

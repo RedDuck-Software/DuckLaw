@@ -211,12 +211,12 @@
       "netstandard.dll": "sha256-FbW0xcZkySFb6B8yBpUE8XmaiMacDVdXdN9GeDH6xu4=",
       "System.Private.CoreLib.dll": "sha256-AQbVm+Z+NByScjRZWDWQnNUk5PBVgwCSWPLQN4YxxZs=",
       "Duck.Shared.dll": "sha256-kJ5e4Y68VPHGvGkB0VXSSV8iyZGwkXb3bQBIelPtlc0=",
-      "Duck.Client.dll": "sha256-9F+XRQOCinXXRjAOkKIq5naWEB1dIW8CX7ywbRcRCjs="
+      "Duck.Client.dll": "sha256-XjMyAdsuGiEIlTSKnbSHd0sZGayuzc51eKUfT6zFD9A="
     },
     "lazyAssembly": null,
     "pdb": {
       "Duck.Shared.pdb": "sha256-Wj+mR9EhUwtkOoN4+sG0SW8LBVZLUy4j\/+PX8SPEUcg=",
-      "Duck.Client.pdb": "sha256-C2cARbs\/u9MF\/No4A9z1uEDAZanGda8oRF3+jGkom8g="
+      "Duck.Client.pdb": "sha256-5smb6TeVvPNPRP6FgQ\/u6yoOE9H\/hpD3ePmkEga8ZxQ="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-rFG55cwkAnfHzxmxwBL2tTwfj8X8cjcSEAlco4bc1eo=",

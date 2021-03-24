@@ -9,9 +9,9 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/screen.css" rel="stylesheet" />
-    <link href="Duck.Client.styles.css" rel="stylesheet" />
-</head> 
+    <link href="Duck.Client.styles.css" rel="stylesheet" /> 
 
+</head>
 <body>
     <div id="app">
         <div padding-top: 50px; class="spinner"></div>
@@ -21,7 +21,17 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+
+
+    <script src="_framework/blazor.webassembly.js">
+    </script>
+    <script src="highlight.js"></script>
+    <script language="JavaScript">
+        window.onbeforeunload = confirmExit;
+        function confirmExit() {
+            return "You have attempted to leave this page.  If you have made any changes to the fields without clicking the Save button, your changes will be lost.  Are you sure you want to exit this page?";
+        }
+    </script>
 </body>
 
 </html>

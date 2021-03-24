@@ -1,23 +1,33 @@
 ﻿@page "/Result/{doc}"
+@page "/Result"
 @inject Duck.Client.Service.IService serv
+@inject IJSRuntime js
+
+
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="css/Result.css" rel="stylesheet" />
+<link href="css/Result.css" rel="stylesheet" /> 
 <body>
-    <div>
+    <div id="textToSelect">
         <div class="navbar">
-            <a id="download" href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
+            <a id="download" href="https://www.rosphoto.com/images/u/articles/1510/7_5.jpg" download="last.jpg"><i class="fa fa-fw fa-download"></i> Сохранить </a>
             <a id="highlight" href="#"><i class="fa fa-fw fa-pencil"></i>Выделить </a>
         </div>
-        <embed src="@doc" style="position: relative; top: 50px; left: 200px;width:450px; height:300px" />
+        <iframe id="ifFrame" src=@doc></iframe>
         <div class="form-group shadow-textarea" id="Area">
             <label id="label" for="FormControl" class="text-dark">Оставить комментарий/пожелание </label>
             <textarea class="form-control z-depth-1" id="FormControl" cols="90" rows="3"></textarea>
             <input type="submit" />
-
         </div>
     </div>
+
 </body>
+
 @code {
     [Parameter]
     public string doc { get; set; }
+    protected async void OnInitializedAsync(MouseEventArgs arg)
+    {
+        await js.InvokeVoidAsync("Test");
+    }
 }

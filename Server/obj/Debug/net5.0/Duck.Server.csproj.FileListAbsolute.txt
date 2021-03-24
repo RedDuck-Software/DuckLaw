@@ -62,3 +62,6 @@ E:\studyc#v2\Duck\Server\bin\Debug\net5.0\Newtonsoft.Json.dll
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\Refit.dll
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\HtmlAgilityPack.dll
 E:\studyc#v2\Duck\Server\bin\Debug\net5.0\MudBlazor.dll
+E:\studyc#v2\Duck\Server\bin\Debug\net5.0\SautinSoft.PdfFocus.dll
+E:\studyc#v2\Duck\Server\bin\Debug\net5.0\System.IO.Packaging.dll
+E:\studyc#v2\Duck\Server\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll

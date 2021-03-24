@@ -90,14 +90,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
+#line 7 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
 using Duck.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
+#line 8 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
 using System.IO;
 
 #line default
@@ -112,7 +112,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 55 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
+#line 58 "E:\studyc#v2\Duck\Client\Pages\UserForm.razor"
        
     Duck.Shared.Render render = new Duck.Shared.Render();
 
@@ -145,10 +145,15 @@ using System.IO;
         Message = $"{selectedFiles.Count} file(s) selected";
         this.StateHasChanged();
     }
+    protected async void OnInitializedAsync(MouseEventArgs arg)
+    {
+        await js.InvokeVoidAsync("Test");
+    }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient client { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private Duck.Client.Service.IService serv { get; set; }
