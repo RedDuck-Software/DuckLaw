@@ -10,49 +10,49 @@
 
 <EditForm Model="@render" OnValidSubmit="Create">
     <div id="textToSelect">
-    <div id="login-box">
-        <div class="left">
-            <input @bind-value="render.Num" type="text" id="Number" name="text" placeholder="Номер судебного дела" />
-            <div id="FormDecision">
-                <label>Форма судебного решение</label>
-                <InputSelect class="form-control" @bind-Value="render.JusticeCode">
-                    <option value="1">Приговор</option>
-                    <option value="2">Постановление</option>
-                    <option value="3">Решение</option>
-                    <option value="4">Cудебный приказ</option>
-                    <option value="5">Постановление</option>
-                    <option value="6">Отдельное решение</option>
-                    <option value="10">Особое мнение</option>
-                </InputSelect>
+        <div id="login-box">
+            <div class="left">
+                <input @bind-value="render.Num" type="text" id="Number" name="text" placeholder="Номер судебного дела" />
+                <div id="FormDecision">
+                    <label>Форма судебного решение</label>
+                    <InputSelect class="form-control" @bind-Value="render.JusticeCode">
+                        <option value="1">Приговор</option>
+                        <option value="2">Постановление</option>
+                        <option value="3">Решение</option>
+                        <option value="4">Cудебный приказ</option>
+                        <option value="5">Постановление</option>
+                        <option value="6">Отдельное решение</option>
+                        <option value="10">Особое мнение</option>
+                    </InputSelect>
+                </div>
+                <div id="Form">
+                    <label>Форма судопроизводства </label>
+                    <InputSelect class="form-control" @bind-Value="render.JudgmentCode">
+                        <option value="1">Гражданское</option>
+                        <option value="2">Уголовное</option>
+                        <option value="3">Хозяйственное</option>
+                        <option value="4">Административное</option>
+                        <option value="5">Дела об административных правонарушениях</option>
+                    </InputSelect>
+                </div>
+                <div id="Instance">
+                    <label>Укажите тип инстанции</label>
+                    <InputSelect class="form-control" @bind-Value="render.Stage">
+                        <option value="first">Первая</option>
+                        <option value="appeal">Апелляционная</option>
+                        <option value="cassation">Кассационная</option>
+                    </InputSelect>
+                </div>
+                <input @bind-value="render.Text" id="Search" type="text" name="text" placeholder="Поиск в тексте решения" />
+                <input id="submit" type="submit" name="signup_submit" value="Отправить" />
             </div>
-            <div id="Form">
-                <label>Форма судопроизводства </label>
-                <InputSelect class="form-control" @bind-Value="render.JudgmentCode">
-                    <option value="1">Гражданское</option>
-                    <option value="2">Уголовное</option>
-                    <option value="3">Хозяйственное</option>
-                    <option value="4">Административное</option>
-                    <option value="5">Дела об административных правонарушениях</option>
-                </InputSelect>
-            </div>
-            <div id="Instance">
-                <label>Укажите тип инстанции</label>
-                <InputSelect class="form-control" @bind-Value="render.Stage">
-                    <option value="first">Первая</option>
-                    <option value="appeal">Апелляционная</option>
-                    <option value="cassation">Кассационная</option>
-                </InputSelect>
-            </div>
-            <input @bind-value="render.Text" id="Search" type="text" name="text" placeholder="Поиск в тексте решения" />
-            <input id="submit" type="submit" name="signup_submit" value="Отправить" />
         </div>
+        <label id="InputLabel"
+               for="InputFile">
+            Загрузить <MudIcon Icon="@Icons.Filled.CloudUpload" />
+        </label>
+        <InputFile id="InputFile" OnChange="OnInputFileChange" hidden multiple></InputFile>
     </div>
-    <label id="InputLabel"
-           for="InputFile">
-        Загрузить <MudIcon Icon="@Icons.Filled.CloudUpload" />
-    </label>
-    <InputFile id="InputFile" OnChange="OnInputFileChange" hidden multiple></InputFile>
-        </div>
 </EditForm>
 
 @code {
@@ -60,24 +60,31 @@
 
     async Task Create()
     {
-        foreach (var file in selectedFiles)
+        if (selectedFiles != null)
         {
-            Stream stream = file.OpenReadStream();
-            MemoryStream ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            stream.Close();
-            Random rnd = new Random();
-            UploadedFile uploadedFile = new UploadedFile();
-            Guid g = Guid.NewGuid();
-            uploadedFile.FileName = Convert.ToString(g) + file.Name;
-            uploadedFile.FileContent = ms.ToArray();
-            ms.Close();
-            await client.PostAsJsonAsync<UploadedFile>("/api/fileupload", uploadedFile);
-            Message = $"{selectedFiles.Count} file(s) uploaded on server";
-            this.StateHasChanged();
-            await serv.CreateNewBlogPosttt(render);
-            NavigationManager.NavigateTo("/Result/" + uploadedFile.FileName);
+            foreach (var file in selectedFiles)
+            {
+                Stream stream = file.OpenReadStream();
+                MemoryStream ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+                stream.Close();
+                UploadedFile uploadedFile = new UploadedFile();
+                Guid guid = Guid.NewGuid();
+                uploadedFile.FileName = Convert.ToString(guid) + file.Name;
+                uploadedFile.FileContent = ms.ToArray();
+                ms.Close();
+                await client.PostAsJsonAsync<UploadedFile>("/api/fileupload", uploadedFile);
+                Message = $"{selectedFiles.Count} file(s) uploaded on server";
+                this.StateHasChanged();
+                NavigationManager.NavigateTo("/Result/" + uploadedFile.FileName);
+            }
         }
+        else 
+        {
+            await serv.CreateNewBlogPost(render);
+            NavigationManager.NavigateTo("/Result");
+        }
+
     }
     string Message = "No file(s) selected";
     IReadOnlyList<IBrowserFile> selectedFiles;
@@ -87,8 +94,5 @@
         Message = $"{selectedFiles.Count} file(s) selected";
         this.StateHasChanged();
     }
-    protected async void OnInitializedAsync(MouseEventArgs arg)
-    {
-        await js.InvokeVoidAsync("Test");
-    }
+
 }

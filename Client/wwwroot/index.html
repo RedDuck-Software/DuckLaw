@@ -9,7 +9,8 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/screen.css" rel="stylesheet" />
-    <link href="Duck.Client.styles.css" rel="stylesheet" /> 
+    <link href="Duck.Client.styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
 
 </head>
 <body>
@@ -24,6 +25,52 @@
 
 
     <script src="_framework/blazor.webassembly.js">
+    </script>
+   
+    <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
+
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script language="JavaScript">
+        window.onmousemove = tes;
+        function tes() {
+            var dfreeHeaderConfig = {
+                selector: '.dfree-header',
+                menubar: false,
+                inline: true,
+                toolbar: false,
+                plugins: ['quickbars'],
+                quickbars_insert_toolbar: 'undo redo',
+                quickbars_selection_toolbar: 'italic underline',
+            };
+
+            var dfreeBodyConfig = {
+                selector: '.dfree-body',
+                menubar: false,
+                inline: true,
+                plugins: [
+                    'autolink',
+                    'codesample',
+                    'link',
+                    'lists',
+                    'media',
+                    'powerpaste',
+                    'table',
+                    'image',
+                    'quickbars',
+                    'codesample',
+                    'help'
+                ],
+                toolbar: false,
+                quickbars_insert_toolbar: 'quicktable image media codesample',
+                quickbars_selection_toolbar: 'bold italic underline | formatselect | blockquote quicklink',
+                contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
+                powerpaste_word_import: 'clean',
+                powerpaste_html_import: 'clean',
+            };
+
+            tinymce.init(dfreeHeaderConfig);
+            tinymce.init(dfreeBodyConfig);
+        }
     </script>
     <script src="highlight.js"></script>
     <script language="JavaScript">

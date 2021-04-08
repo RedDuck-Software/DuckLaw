@@ -7,7 +7,7 @@ namespace Duck.Client.Service
 {
     interface IService
     {
-        Task<Render> CreateNewBlogPosttt(Render request);
+        Task<Render> CreateNewBlogPost(Render request);
         Task<Render> GetDoc();
     }
 }

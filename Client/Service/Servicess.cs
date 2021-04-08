@@ -15,7 +15,7 @@ namespace Duck.Client.Service
         {
             _http = http;
         }
-        public async Task<Render> CreateNewBlogPosttt(Render request)
+        public async Task<Render> CreateNewBlogPost(Render request)
         {
             var result = await _http.PostAsJsonAsync("api/User", request);
             return await result.Content.ReadFromJsonAsync<Render>();

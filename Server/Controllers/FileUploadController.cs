@@ -25,6 +25,10 @@ namespace Duck.Server.Controllers
             var fs = System.IO.File.Create(path);
             fs.Write(uploadedFile.FileContent, 0, uploadedFile.FileContent.Length);
             fs.Close();
+            SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
+            f.OpenPdf($"{env.WebRootPath}\\{uploadedFile.FileName}");
+            int result = f.ToHtml($"{env.WebRootPath}\\{"g.html"}");
+
           
         }
     }
