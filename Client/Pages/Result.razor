@@ -2,23 +2,30 @@
 @page "/Result"
 @inject Duck.Client.Service.IService serv
 @inject IJSRuntime js
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="css/Result.css" rel="stylesheet" />
+    <body>
+        <div>
+            <div class="navbar">
+                <a href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
+                <a href="#"><i class="fa fa-fw fa-pencil"></i>Выделить </a>
+            </div>
+            <div id="Area">
+                <p class="col-form-label"> Оставить коментарий для разработчика</p>
+                <textarea class="tab-content" name="comment" cols="90" rows="5"> </textarea>
+                <input type="submit" />
+            </div>
+        </div>
+        <div id="includedContent"></div>
+    </body>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="css/Result.css" rel="stylesheet" />
-<body>
-    <div>
-        <div class="navbar">
-            <a href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
-            <a href="#"><i class="fa fa-fw fa-pencil"></i>Выделить </a>
-        </div>
-        <div id="Area">
-            <p class="col-form-label"> Оставить коментарий для разработчика</p>
-            <textarea class="tab-content" name="comment" cols="90" rows="5"> </textarea>
-            <input type="submit" />
-        </div>
-    </div>
-</body>
-@code {
-    [Parameter]
-    public string doc { get; set; }
-}
+    @code {
+        [Parameter]
+        public string doc { get; set; }
+
+        protected override void OnInitialized()
+        {
+            js.InvokeVoidAsync("Test");
+        }
+
+    }
