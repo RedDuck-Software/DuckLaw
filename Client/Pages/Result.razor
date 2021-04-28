@@ -1,7 +1,7 @@
 ﻿@page "/Result/{doc}"
 @page "/Result"
 @inject Duck.Client.Service.IService serv
-@inject IJSRuntime js
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/Result.css" rel="stylesheet" />
     <body>
@@ -23,9 +23,5 @@
         [Parameter]
         public string doc { get; set; }
 
-        protected override void OnInitialized()
-        {
-            js.InvokeVoidAsync("Test");
-        }
 
     }

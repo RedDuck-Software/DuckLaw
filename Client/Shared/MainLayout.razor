@@ -1,13 +1,9 @@
 ﻿@inherits LayoutComponentBase
-@using Radzen.Blazor
+@using MudBlazor
 <div class="page">
     @*<div class="sidebar">
             <NavMenu />
         </div>*@
-    <RadzenDialog />
-    <RadzenNotification />
-    <RadzenContextMenu /> 
-    <RadzenTooltip />
     <div class="main">
         @*<div class="top-row px-4">
                 <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
@@ -18,3 +14,6 @@
         </div>
     </div>
 </div>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />

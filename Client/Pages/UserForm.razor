@@ -6,53 +6,121 @@
 @inject IJSRuntime js
 @using Duck.Shared
 @using System.IO
+@inject ISnackbar Snackbar
+
 <link href="css/UserForm.css" rel="stylesheet" />
 
 <EditForm Model="@render" OnValidSubmit="Create">
-    <div id="textToSelect">
-        <div id="login-box">
-            <div class="left">
-                <input @bind-value="render.Num" type="text" id="Number" name="text" placeholder="Номер судебного дела" />
-                <div id="FormDecision">
-                    <label>Форма судебного решение</label>
-                    <InputSelect class="form-control" @bind-Value="render.JusticeCode">
-                        <option value="1">Приговор</option>
-                        <option value="2">Постановление</option>
-                        <option value="3">Решение</option>
-                        <option value="4">Cудебный приказ</option>
-                        <option value="5">Постановление</option>
-                        <option value="6">Отдельное решение</option>
-                        <option value="10">Особое мнение</option>
-                    </InputSelect>
+    <div id="login-box">
+      
+        <ul class="nav nav-tabs justify-content-around" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home">Form</a>
+            </li>
+            <li class="nav-item">
+                <h4>RedDuck Law</h4>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#menu2">Upload</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="home" class="container tab-pane active">
+                <div class="form-row">
+                    <br />
+                    <div class="form-group col-md-6 ml-md-auto">
+                        <br />
+                        <label for="Number"></label>
+                        <input @bind-value="render.Num" placeholder="Номер судебного дела" class="form-group" type="text" id="Number" name="text" />
+                    </div>
+                    <div class="form-group col-md-6 ml-md-auto ">
+                        <br />
+                        <label for="inputPassword4"></label>
+                        <input @bind-value="render.Text" placeholder="Поиск в тексте решения" class="form-group" id="Search" type="text" name="text" />
+                    </div>
                 </div>
-                <div id="Form">
-                    <label>Форма судопроизводства </label>
-                    <InputSelect class="form-control" @bind-Value="render.JudgmentCode">
-                        <option value="1">Гражданское</option>
-                        <option value="2">Уголовное</option>
-                        <option value="3">Хозяйственное</option>
-                        <option value="4">Административное</option>
-                        <option value="5">Дела об административных правонарушениях</option>
-                    </InputSelect>
+                <div class="form-row">
+                    <div id="FormDecision" class="col-md-6 ml-md-auto">
+                        <label>Форма судебного решение</label>
+                        <InputSelect class="form-control" @bind-Value="render.JusticeCode">
+                            <option value="1">Приговор</option>
+                            <option value="2">Постановление</option>
+                            <option value="3">Решение</option>
+                            <option value="4">Cудебный приказ</option>
+                            <option value="5">Постановление</option>
+                            <option value="6">Отдельное решение</option>
+                            <option value="10">Особое мнение</option>
+                        </InputSelect>
+                    </div>
+                    <div id="Form" class="col-md-6 ml-md-auto">
+                        <label>Форма судопроизводства </label>
+                        <InputSelect class="form-control" @bind-Value="render.JudgmentCode">
+                            <option value="1">Гражданское</option>
+                            <option value="2">Уголовное</option>
+                            <option value="3">Хозяйственное</option>
+                            <option value="4">Административное</option>
+                            <option value="5">Дела об административных правонарушениях</option>
+                        </InputSelect>
+                    </div>
                 </div>
-                <div id="Instance">
-                    <label>Укажите тип инстанции</label>
-                    <InputSelect class="form-control" @bind-Value="render.Stage">
-                        <option value="first">Первая</option>
-                        <option value="appeal">Апелляционная</option>
-                        <option value="cassation">Кассационная</option>
-                    </InputSelect>
+                <br />
+                <div class="form-row justify-content-md-center">
+                    <div>
+                        <label>Укажите тип инстанции</label>
+                        <InputSelect id="Instance" class="form-control col-md-12 " @bind-Value="render.Stage">
+                            <option value="first">Первая</option>
+                            <option value="appeal">
+                                Апелляционная
+                            </option>
+                            <option value="cassation">Кассационная</option>
+                        </InputSelect>
+
+                    </div>
                 </div>
-                <input @bind-value="render.Text" id="Search" type="text" name="text" placeholder="Поиск в тексте решения" />
-                <input id="submit" type="submit" name="signup_submit" value="Отправить" />
+                <br />
+                <div class="form-group justify-content-end">
+                    <input id="submit" type="submit" class="btn btn-primary" name="signup_submit" value="Отправить" />
+                </div>
+            </div>
+            <div id="menu2" class="container tab-pane fade">
+                <div class="form-control-file justify-content-between">
+                    <div>
+                        <MudPaperc @ondragenter="@(()=>_dragEnterStyle="drag-enter")"
+                                   @ondragleave="@(()=>_dragEnterStyle=null)"
+                                   @ondragend="@(()=>_dragEnterStyle=null)"
+                                   Class=@("drag-drop-zone "+ _dragEnterStyle)>
+                            <InputFile OnChange="OnInputFileChanged" multiple class="drag-drop-input" />
+                            @if (fileNames.Count() == 0)
+                            {
+                                <MudText Typo="Typo.h3">Drag and drop files here or click</MudText>
+                            }
+                            else
+                            {
+                                <MudList Style="padding:2em;width:100%;" Dense="true">
+                                    @foreach (var file in fileNames)
+                                    {
+                                        <MudListItem @key="@file">
+                                            <MudChip Color="Color.Dark"
+                                                     Style="width:60px; overflow:hidden;"
+                                                     Text="@(file.Split(".").Last())" />
+                                            @file
+                                        </MudListItem>}
+                                </MudList>
+                            }
+
+                        </MudPaperc>
+                 
+                            <input id="submitUpload" type="submit" class="btn btn-primary" name="signup_submit" value="Отправить" />
+
+                    </div>
+                   
+                </div>
             </div>
         </div>
-        <label id="InputLabel"
-               for="InputFile">
-            Загрузить <MudIcon Icon="@Icons.Filled.CloudUpload" />
-        </label>
-        <InputFile id="InputFile" OnChange="OnInputFileChange" hidden multiple></InputFile>
     </div>
+
 </EditForm>
 
 @code {
@@ -79,7 +147,7 @@
                 NavigationManager.NavigateTo("/Result/" + uploadedFile.FileName);
             }
         }
-        else 
+        else
         {
             await serv.CreateNewBlogPost(render);
             NavigationManager.NavigateTo("/Result");
@@ -88,11 +156,19 @@
     }
     string Message = "No file(s) selected";
     IReadOnlyList<IBrowserFile> selectedFiles;
-    private void OnInputFileChange(InputFileChangeEventArgs e)
+    string _dragEnterStyle;
+    IList<string> fileNames = new List<string>();
+    void OnInputFileChanged(InputFileChangeEventArgs e)
     {
         selectedFiles = e.GetMultipleFiles();
-        Message = $"{selectedFiles.Count} file(s) selected";
-        this.StateHasChanged();
+        var files = e.GetMultipleFiles();
+        fileNames = files.Select(f => f.Name).ToList();
+    }
+    void Upload()
+    {
+       //Upload the files here
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        Snackbar.Add("TODO: Upload your files!", Severity.Normal);
     }
 
 }

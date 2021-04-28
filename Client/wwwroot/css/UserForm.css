@@ -4,6 +4,33 @@
     outline: none;
 }
 
+.drag-drop-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .4s;
+    min-height: 400px;
+}
+
+.drag-drop-input {
+    position: absolute;
+    width: 100%;
+    height: 72%;
+    margin-bottom:100px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.drag-enter {
+    box-shadow: var(--mud-elevation-10);
+}
+
+.list {
+    padding: 2em;
+    min-width: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -18,7 +45,7 @@ body {
     position: relative;
     margin: 5% auto;
     width: 600px;
-    height: 400px;
+    height: 420px;
     background: #FFF;
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -50,29 +77,12 @@ h1 {
     font-size: 28px;
 }
 
-#FormDecision {
-    position: relative;
-    top: 50px;
-}
-
-#Form {
-    position: relative;
-    left: 300px;
-    bottom: 20px;
-}
-
-#Instance {
-    position: relative;
-    left: 150px;
-    top: 20px;
-}
 
 input[id="Number"] {
     display: block;
     box-sizing: border-box;
     margin-bottom: 20px;
     padding: 4px;
-    width: 220px;
     height: 32px;
     border: none;
     border-bottom: 1px solid #AAA;
@@ -83,14 +93,10 @@ input[id="Number"] {
 }
 
 input[id="Search"] {
-    position: relative;
-    left: 300px;
-    bottom: 262px;
     display: block;
     box-sizing: border-box;
     margin-bottom: 20px;
     padding: 4px;
-    width: 220px;
     height: 32px;
     border: none;
     border-bottom: 1px solid #AAA;
@@ -107,13 +113,7 @@ input[id="Search"] {
         transition: 0.2s ease;
     }
 
-input[type="submit"] {
-    position: relative;
-    left: 400px;
-    bottom: 100px;
-    margin-top: 100px;
-    width: 120px;
-    height: 32px;
+input[id="submit"] {
     background: #16a085;
     border: none;
     border-radius: 2px;
@@ -125,8 +125,8 @@ input[type="submit"] {
     cursor: pointer;
 }
     
-    input[type="submit"]:hover,
-    input[type="submit"]:focus {
+    input[id="submit"]:hover,
+    input[id="submit"]:focus {
         opacity: 0.8;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
         transition: 0.1s ease;
@@ -136,13 +136,20 @@ input[type="submit"]:active {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     transition: 0.1s ease;
 }
-
+input[id="submitUpload"] {
+    position:relative;
+    bottom:70px;
+    background: #16a085;
+    border: none;
+    border-radius: 2px;
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.1s ease;
+    cursor: pointer;
+}
 .or {
-    position: absolute;
-    top: 180px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
     background: #DDD;
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -150,13 +157,8 @@ input[type="submit"]:active {
     text-align: center;
 }
 #InputLabel {
-    position: relative;
-    bottom: 125px;
-    left: 475px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    width: 135px;
-    height: 32px;
     justify-content: space-around;
     border-radius: 2em;
     color: white;
@@ -168,8 +170,5 @@ input[type="submit"]:active {
     background-color: #16a085;
     box-shadow: 0 2px 7px #4caf50;
 }
-#InputFile {
-    position: relative;
-    bottom: 125px;
-    left: 475px;
-}
+
+
