@@ -1,37 +1,26 @@
-﻿@*<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Duck</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>*@
-
-@*<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> UserForm
-            </NavLink>
-        </li>
-    </ul>
-</div>*@
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+﻿<nav class="navbar navbar-expand-md navbar-dark bg-darkred main-nav">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse w-100">
+            <ul class="nav navbar-nav">
+                <NavLink class="nav-item active">
+                    <a class="nav-link font-weight-bolder" href="#">Єдиний державний реєстр судових рішень</a>
+                </NavLink>
+            </ul>
+        </div>
+        <a class="navbar-brand order-first order-md-0 mx-0 mb-0 h1 text-uppercase" href="#">
+            Red Duck
+            <img src="/GerbUkraine.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+            Закон
+        </a>
+        <div class="collapse navbar-collapse w-100">
+            <ul class="nav navbar-nav ml-auto">
+                <NavLink class="nav-item active">
+                    <a class="nav-link font-weight-bolder" href="#">Обробити документ</a>
+                </NavLink>
+            </ul>
+        </div>
+    </div>
+</nav>
