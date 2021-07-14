@@ -1,27 +1,65 @@
-﻿@page "/Result/{doc}"
+﻿@*@page "/Result/{doc}"*@
 @page "/Result"
+@using Blazored.TextEditor
+@using System.IO
+@using System.Text;
 @inject Duck.Client.Service.IService serv
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="css/Result.css" rel="stylesheet" />
-    <body>
-        <div>
-            <div class="navbar">
-                <a href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
-                <a href="#"><i class="fa fa-fw fa-pencil"></i>Выделить </a>
-            </div>
-            <div id="Area">
-                <p class="col-form-label"> Оставить коментарий для разработчика</p>
-                <textarea class="tab-content" name="comment" cols="90" rows="5"> </textarea>
-                <input type="submit" />
-            </div>
+@inject NavigationManager NavigationManager
+@inject HttpClient client
+@inject IJSRuntime js
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="css/Result.css" rel="stylesheet" />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-around">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-around" id="navbarTogglerDemo03">
+        <form method="get" action="file.doc">
+            <button class="btn btn-dark" type="submit"><i class="fa fa-fw fa-download"></i>Сохранить</button>
+        </form>
+        <form class="form-inline my-12 my-lg-0">
+            <button class="btn btn-dark" id="openPopup" type="button" @onclick="OnButtonClicked"><i class="fa fa-fw fa-pencil"></i>Highlight Text</button>
+        </form>
+    </div>
+</nav>
+    <div id="includedContent"></div>
+<div class="container">
+    <div class="row" data-spy="scroll">
+        <div class="col-lg">
+            <div id="htmldisplayer"></div>
         </div>
-        <div id="includedContent"></div>
-    </body>
+        <div class="col-lg">
+            <div id="htmldisplayerTest"></div>
+        </div>
+    </div>
+</div>
+<hr />
+@*<div id="Area">
+    <p class="col-form-label"> Оставить коментарий для разработчика</p>
+    <textarea class="tab-content" name="comment" cols="90" rows="5"> </textarea>
+    <input type="submit" />
+</div>*@
 
-    @code {
-        [Parameter]
-        public string doc { get; set; }
+@code {
 
+    private string FileContent { get; set; } = null;
+    protected async override void OnInitialized()
+    {
+        await LoadFiles();
+    }
+    private async Task<string> LoadFiles()
+    {
+        FileContent = await serv.GetFile();
+        await JsRuntime.InvokeVoidAsync("SetDiv", FileContent);
+        await JsRuntime.InvokeVoidAsync("SetDivTest", FileContent);
+        return FileContent;
 
     }
+    public async Task OnButtonClicked()
+    {
+        await JsRuntime.InvokeVoidAsync("HighlightText");
+    }
+
+}
