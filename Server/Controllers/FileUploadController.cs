@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Session;
 using Mammoth;
 using System.IO;
 using System.Text;
+using Spire.Doc;
+using SautinSoft.Document;
+using UglyToad.PdfPig.Content;
+using UglyToad.PdfPig;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 
 namespace Duck.Server.Controllers
 {
@@ -16,6 +22,7 @@ namespace Duck.Server.Controllers
     [ApiController]
     public class FileUploadController : Controller
     {
+
         private readonly IWebHostEnvironment env;
         public FileUploadController(IWebHostEnvironment env)
         {
@@ -32,7 +39,16 @@ namespace Duck.Server.Controllers
             if (uploadedFile.FileName.EndsWith("pdf"))
             {
                 f.OpenPdf($"{env.WebRootPath}\\{uploadedFile.FileName}");
-                int result = f.ToHtml($"{env.WebRootPath}\\{"Test.html"}");
+                int result = f.ToText($"{env.WebRootPath}\\{"Test.txt"}");
+                PdfReader reader = new PdfReader(path);
+                string text = string.Empty;
+                for (int page = 1; page <= reader.NumberOfPages; page++)
+                {
+                    text += PdfTextExtractor.GetTextFromPage(reader, page);
+                }
+                var ffs = System.IO.File.CreateText($"{env.WebRootPath}\\{"Test.txt"}");
+                ffs.Write(text, 0, text.Length);
+                ffs.Close();
             }
             if (uploadedFile.FileName.EndsWith("docx"))
             {
@@ -48,8 +64,8 @@ namespace Duck.Server.Controllers
 
                 }
                 var warnings = resultt.Warnings;
-            }
 
+            }
         }
     }
 }

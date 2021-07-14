@@ -7,12 +7,9 @@
 @using Duck.Shared
 @using System.IO
 @inject ISnackbar Snackbar
-
 <link href="css/UserForm.css" rel="stylesheet" />
-
 <EditForm Model="@render" OnValidSubmit="Create">
     <div id="login-box">
-      
         <ul class="nav nav-tabs justify-content-around" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#home">Form</a>
@@ -24,7 +21,6 @@
                 <a class="nav-link" data-toggle="tab" href="#menu2">Upload</a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home" class="container tab-pane active">
@@ -101,21 +97,34 @@
                                 <MudList Style="padding:2em;width:100%;" Dense="true">
                                     @foreach (var file in fileNames)
                                     {
-                                        <MudListItem @key="@file">
-                                            <MudChip Color="Color.Dark"
-                                                     Style="width:60px; overflow:hidden;"
-                                                     Text="@(file.Split(".").Last())" />
-                                            @file
-                                        </MudListItem>}
+                                        if (file.EndsWith("pdf") || file.EndsWith("doc") || file.EndsWith("docx"))
+                                        {
+                                            <MudListItem @key="@file">
+                                                <MudChip Color="Color.Dark"
+                                                         Style="width:60px; overflow:hidden;"
+                                                         Text="@(file.Split(".").Last())" />
+                                                @file
+                                            </MudListItem>
+                                        }
+                                        else
+                                        {
+                                <MudListItem>
+                                    <MudChip Color="Color.Dark"
+                                             Style="width:60px; overflow:hidden;"
+                                             Text="error" />
+                                    Incorrect file format.Format required : Pdf,Doc,Docx
+                                </MudListItem>
+
+                                        }
+                                    }
                                 </MudList>
+
                             }
 
                         </MudPaperc>
-                 
-                            <input id="submitUpload" type="submit" class="btn btn-primary" name="signup_submit" value="Отправить" />
-
+                        <input id="submitUpload" type="submit" class="btn btn-primary" name="signup_submit" value="Отправить" />
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -132,19 +141,23 @@
         {
             foreach (var file in selectedFiles)
             {
-                Stream stream = file.OpenReadStream();
-                MemoryStream ms = new MemoryStream();
-                await stream.CopyToAsync(ms);
-                stream.Close();
-                UploadedFile uploadedFile = new UploadedFile();
-                Guid guid = Guid.NewGuid();
-                uploadedFile.FileName = Convert.ToString(guid) + file.Name;
-                uploadedFile.FileContent = ms.ToArray();
-                ms.Close();
-                await client.PostAsJsonAsync<UploadedFile>("/api/fileupload", uploadedFile);
-                Message = $"{selectedFiles.Count} file(s) uploaded on server";
-                this.StateHasChanged();
-                NavigationManager.NavigateTo("/Result/" + uploadedFile.FileName);
+                if (file.Name.EndsWith("pdf") || file.Name.EndsWith("docx") || file.Name.EndsWith("doc"))
+                {
+                    Stream stream = file.OpenReadStream(1000000);
+                    MemoryStream ms = new MemoryStream();
+
+                    await stream.CopyToAsync(ms);
+                    stream.Close();
+                    UploadedFile uploadedFile = new UploadedFile();
+                    Guid guid = Guid.NewGuid();
+                    uploadedFile.FileName = Convert.ToString(guid) + file.Name;
+                    uploadedFile.FileContent = ms.ToArray();
+                    ms.Close();
+                    await client.PostAsJsonAsync<UploadedFile>("/api/fileupload", uploadedFile);
+                    Message = $"{selectedFiles.Count} file(s) uploaded on server";
+                    this.StateHasChanged();
+                    NavigationManager.NavigateTo("/Result");
+                }
             }
         }
         else
@@ -152,7 +165,6 @@
             await serv.CreateNewBlogPost(render);
             NavigationManager.NavigateTo("/Result");
         }
-
     }
     string Message = "No file(s) selected";
     IReadOnlyList<IBrowserFile> selectedFiles;
@@ -160,13 +172,15 @@
     IList<string> fileNames = new List<string>();
     void OnInputFileChanged(InputFileChangeEventArgs e)
     {
+
         selectedFiles = e.GetMultipleFiles();
         var files = e.GetMultipleFiles();
         fileNames = files.Select(f => f.Name).ToList();
+
     }
     void Upload()
     {
-       //Upload the files here
+        //Upload the files here
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
         Snackbar.Add("TODO: Upload your files!", Severity.Normal);
     }

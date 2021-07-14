@@ -2,6 +2,7 @@
 using Duck.Server.Services;
 using Duck.Shared;
 using HtmlAgilityPack;
+using Mammoth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,39 +23,46 @@ namespace Duck.Server.Controllers
     public class User : ControllerBase
     {
         private readonly IWebHostEnvironment env;
+        public User(IWebHostEnvironment env)
+        {
+            this.env = env;
+        }
         [HttpPost]
         public async Task<ActionResult<Render>> CreateNewBlogPost(Render Request)
         {
             if (Request.Num == null)
             {
-                return new ActionResult<Render>(new Render()) ;
+                return new ActionResult<Render>(new Render());
             }
 
-                Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .MinimumLevel.Verbose()
-                .CreateLogger();
-                const string BaseUrl = "https://opendatabot.com";
-                var service = new RootService(new Uri(BaseUrl));
-                var results = await service.SearchAsync(Request);
-                var resultLink = results.data.items.Last().link;
-                var pageContent = LoadPage(resultLink);
-                var document = new HtmlDocument();
-                document.LoadHtml(pageContent);
-                FileStream sw = new FileStream($"kk", FileMode.Create);
-                document.Save(sw);
-                //HtmlNodeCollection links = document.DocumentNode.SelectNodes(".//div/p");
-                //foreach (HtmlNode html in links)
-                //{
-                //    string path = @"E:\MyTest.html";
-                //    using (FileStream fs = System.IO.File.Create(path))
-                //    {
-                //        byte[] info = new UTF8Encoding(true).GetBytes(html.InnerHtml);
-                //        fs.Write(info, 0, info.Length);
-                //    }
-                //}
-                return Request;
-            
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .MinimumLevel.Verbose()
+            .CreateLogger();
+            const string BaseUrl = "https://opendatabot.com";
+            var service = new RootService(new Uri(BaseUrl));
+            //var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
+            var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
+            var document = new HtmlDocument();  
+            document.LoadHtml(pageContent);
+            var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
+            foreach (var item in removenode)
+            {
+                item.RemoveAll();
+            }
+            HtmlNodeCollection links = document.DocumentNode.SelectNodes("//div[@class='container p-2 p-sm-3']");
+            string strr = default;
+            foreach (HtmlNode html in links)
+            {
+                strr += html.InnerHtml;
+            }
+            string path =$"{env.WebRootPath}\\{"Itam.html"}";
+            using (FileStream fs = System.IO.File.Create(path))
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes(strr);
+                fs.Write(info, 0, info.Length);
+            }
+            return Request;
 
             static string LoadPage(string url)
             {
@@ -80,7 +88,11 @@ namespace Duck.Server.Controllers
                 return result;
             }
         }
-
-
+        [HttpGet]
+        public string GimmeThatSingleBlogPost(string url)
+        {
+            var text = System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
+            return text;
+        }
     }
 }
