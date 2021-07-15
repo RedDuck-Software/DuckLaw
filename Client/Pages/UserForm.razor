@@ -118,18 +118,14 @@
                                         }
                                     }
                                 </MudList>
-
                             }
-
                         </MudPaperc>
                         <input id="submitUpload" type="submit" class="btn btn-primary" name="signup_submit" value="Отправить" />
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </EditForm>
 
 @code {
@@ -145,7 +141,6 @@
                 {
                     Stream stream = file.OpenReadStream(1000000);
                     MemoryStream ms = new MemoryStream();
-
                     await stream.CopyToAsync(ms);
                     stream.Close();
                     UploadedFile uploadedFile = new UploadedFile();

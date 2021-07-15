@@ -2,17 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Session;
 using Mammoth;
 using System.IO;
 using System.Text;
-using Spire.Doc;
-using SautinSoft.Document;
-using UglyToad.PdfPig.Content;
-using UglyToad.PdfPig;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 
@@ -35,11 +27,8 @@ namespace Duck.Server.Controllers
             var fs = System.IO.File.Create(path);
             fs.Write(uploadedFile.FileContent, 0, uploadedFile.FileContent.Length);
             fs.Close();
-            SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
             if (uploadedFile.FileName.EndsWith("pdf"))
             {
-                f.OpenPdf($"{env.WebRootPath}\\{uploadedFile.FileName}");
-                int result = f.ToText($"{env.WebRootPath}\\{"Test.txt"}");
                 PdfReader reader = new PdfReader(path);
                 string text = string.Empty;
                 for (int page = 1; page <= reader.NumberOfPages; page++)

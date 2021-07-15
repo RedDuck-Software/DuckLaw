@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
-using BlazorDownloadFile;
 
 namespace Duck.Client
 {

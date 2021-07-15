@@ -1,13 +1,10 @@
-﻿using Duck.Server.Model;
-using Duck.Server.Services;
+﻿using Duck.Server.Services;
 using Duck.Shared;
 using HtmlAgilityPack;
 using Mammoth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Refit;
 using Serilog;
 using System;
 using System.IO;
@@ -28,13 +25,12 @@ namespace Duck.Server.Controllers
             this.env = env;
         }
         [HttpPost]
-        public async Task<ActionResult<Render>> CreateNewBlogPost(Render Request)
+        public async Task<ActionResult<Render>> SaveDoc(Render Request)
         {
             if (Request.Num == null)
             {
                 return new ActionResult<Render>(new Render());
             }
-
             Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
             .MinimumLevel.Verbose()
@@ -42,7 +38,7 @@ namespace Duck.Server.Controllers
             const string BaseUrl = "https://opendatabot.com";
             var service = new RootService(new Uri(BaseUrl));
             //var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
-            var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
+            var pageContent = LoadPage("https://localhost:5001/");
             var document = new HtmlDocument();  
             document.LoadHtml(pageContent);
             var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
@@ -62,7 +58,7 @@ namespace Duck.Server.Controllers
                 byte[] info = new UTF8Encoding(true).GetBytes(strr);
                 fs.Write(info, 0, info.Length);
             }
-            return Request;
+            return  Request;
 
             static string LoadPage(string url)
             {
@@ -89,10 +85,39 @@ namespace Duck.Server.Controllers
             }
         }
         [HttpGet]
-        public string GimmeThatSingleBlogPost(string url)
+        public string GetDoc(string url)
         {
             var text = System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
             return text;
+        }
+        [HttpPost("b")]
+        public async Task<string> Test(string s)
+        {
+            var pageContent = LoadPage("https://localhost:5001/Result");
+            return "m";
+            static string LoadPage(string url)
+            {
+                var result = "";
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                var response = (HttpWebResponse)request.GetResponse();
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var receiveStream = response.GetResponseStream();
+                    if (receiveStream != null)
+                    {
+                        StreamReader readStream;
+                        if (response.CharacterSet == null)
+                            readStream = new StreamReader(receiveStream);
+                        else
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        result = readStream.ReadToEnd();
+                        readStream.Close();
+                    }
+                    response.Close();
+                }
+                return result;
+            }
         }
     }
 }

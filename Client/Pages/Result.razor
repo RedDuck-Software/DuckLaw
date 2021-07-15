@@ -1,6 +1,5 @@
 ﻿@*@page "/Result/{doc}"*@
 @page "/Result"
-@using Blazored.TextEditor
 @using System.IO
 @using System.Text;
 @inject Duck.Client.Service.IService serv
@@ -16,7 +15,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-around" id="navbarTogglerDemo03">
-        <form method="get" action="file.doc">
+        <form method="get" action="Test.docx">
             <button class="btn btn-dark" type="submit"><i class="fa fa-fw fa-download"></i>Сохранить</button>
         </form>
         <form class="form-inline my-12 my-lg-0">
@@ -36,9 +35,14 @@
     </div>
 </div>
 <hr />
+<div class="form-row">
+    <label for="exampleFormControlTextarea1">Example textarea</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
+    <button type="button" @onclick="OnButtonsClicked" class="btn btn-primary col-md-2">Отправить</button>
+</div>
 @*<div id="Area">
     <p class="col-form-label"> Оставить коментарий для разработчика</p>
-    <textarea class="tab-content" name="comment" cols="90" rows="5"> </textarea>
+    <textarea class="tab-content" name="comment" > </textarea>
     <input type="submit" />
 </div>*@
 
@@ -61,5 +65,8 @@
     {
         await JsRuntime.InvokeVoidAsync("HighlightText");
     }
-
+    public async Task OnButtonsClicked()
+    {
+        await serv.ParsePage("k");
+    }
 }
