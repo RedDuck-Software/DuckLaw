@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <EditForm Model="@openDataBotModel" OnInvalidSubmit="@HandleValidSubmit">
+            <EditForm Model="@openDataBotModel" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <div class="row">
@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label>Номер справи</label>
-                            <InputText @bind-Value="openDataBotModel.Number" class="form-control" placeholder="621/2261/18"/>
+                            <InputText @bind-Value="openDataBotModel.Number" class="form-control" placeholder="621/2261/18" />
                         </div>
                     </div>
                 </div>
@@ -51,6 +51,30 @@
                             <label>Реєстраційний № рішення</label>
                             <InputText @bind-Value="openDataBotModel.Number" class="form-control" />
                         </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Період ухвалення</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">з</span>
+                                        </div>
+                                        <InputDate @bind-Value="openDataBotModel.DateFrom" class="form-control"></InputDate>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">по</span>
+                                        </div>
+                                        <InputDate @bind-Value="openDataBotModel.DateTo" class="form-control"></InputDate>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label>Форма судового рішення</label>
                             <InputSelect TValue="int" class="form-control" @bind-Value="openDataBotModel.JusticeCode">
@@ -81,7 +105,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-end border-top">
-                        <button type="submit" class="btn btn-primary m-2">Пошук</button>
+                    <button type="submit" class="btn btn-primary m-2">Пошук</button>
                 </div>
             </EditForm>
         </div>
@@ -89,12 +113,15 @@
 </div>
 
 @code {
+    private EditContext editContext;
     private OpenDataBotModel openDataBotModel = new();
 
     private void HandleValidSubmit()
     {
-        Logger.LogInformation("HandleValidSubmit called");
+        Logger.LogInformation("HandleValidSubmit called: Processing the form");
 
-        // Process the valid form
+        Logger.LogInformation(openDataBotModel.ToString());
+
+        // Process the form
     }
 }

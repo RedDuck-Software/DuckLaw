@@ -1,6 +1,6 @@
 ﻿using Refit;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Duck.Shared
 {
@@ -37,10 +37,10 @@ namespace Duck.Shared
         public string Limit { get; set; }
 
         [AliasAs("date_from")]
-        public string DateFrom { get; set; }
+        public DateTime? DateFrom { get; set; } = null;
 
         [AliasAs("date_to")]
-        public string DateTo { get; set; }
+        public DateTime? DateTo { get; set; } = null;
 
         [AliasAs("number")]
         public string Number { get; set; } /* = "509/4062/20";*/
