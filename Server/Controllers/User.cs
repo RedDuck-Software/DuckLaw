@@ -1,14 +1,11 @@
 ﻿using Duck.Server.Services;
 using Duck.Shared;
 using HtmlAgilityPack;
-using Mammoth;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +36,7 @@ namespace Duck.Server.Controllers
             var service = new RootService(new Uri(BaseUrl));
             //var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
             var pageContent = LoadPage("https://localhost:5001/");
-            var document = new HtmlDocument();  
+            var document = new HtmlDocument();
             document.LoadHtml(pageContent);
             var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
             foreach (var item in removenode)
@@ -52,14 +49,13 @@ namespace Duck.Server.Controllers
             {
                 strr += html.InnerHtml;
             }
-            string path =$"{env.WebRootPath}\\{"Itam.html"}";
+            string path = $"{env.WebRootPath}\\{"Itam.html"}";
             using (FileStream fs = System.IO.File.Create(path))
             {
                 byte[] info = new UTF8Encoding(true).GetBytes(strr);
                 fs.Write(info, 0, info.Length);
             }
-            return  Request;
-
+            return Request;
             static string LoadPage(string url)
             {
                 var result = "";
@@ -84,40 +80,24 @@ namespace Duck.Server.Controllers
                 return result;
             }
         }
+
         [HttpGet]
         public string GetDoc(string url)
         {
             var text = System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
             return text;
         }
-        [HttpPost("b")]
-        public async Task<string> Test(string s)
-        {
-            var pageContent = LoadPage("https://localhost:5001/Result");
-            return "m";
-            static string LoadPage(string url)
-            {
-                var result = "";
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                var response = (HttpWebResponse)request.GetResponse();
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var receiveStream = response.GetResponseStream();
-                    if (receiveStream != null)
-                    {
-                        StreamReader readStream;
-                        if (response.CharacterSet == null)
-                            readStream = new StreamReader(receiveStream);
-                        else
-                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
-                        result = readStream.ReadToEnd();
-                        readStream.Close();
-                    }
-                    response.Close();
-                }
-                return result;
+        [HttpPost("parse")]
+        public async Task<string> Test(ParsePage request)
+        {
+            string path = $"{env.WebRootPath}\\{"Test.html"}";
+            using (FileStream fs = System.IO.File.Create(path))
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes(request.Url);
+                fs.Write(info, 0, info.Length);
             }
+            return "g";
         }
     }
 }
