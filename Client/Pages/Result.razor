@@ -1,12 +1,13 @@
 ﻿@*@page "/Result/{doc}"*@
 @page "/Result"
+@using System.IO
+@using System.Text;
 @inject Duck.Client.Service.IService serv
 @inject NavigationManager NavigationManager
 @inject HttpClient client
 @inject IJSRuntime js
 @inject ISnackbar Snackbar
 @inject IJSRuntime JsRuntime
-@using Duck.Shared
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="css/Result.css" rel="stylesheet" />
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-around">
@@ -22,7 +23,7 @@
         </form>
     </div>
 </nav>
-<div id="includedContent"></div>
+    <div id="includedContent"></div>
 <div class="container">
     <div class="row" data-spy="scroll">
         <div class="col-lg">
@@ -36,18 +37,17 @@
 <hr />
 <div class="form-row">
     <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea  class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
-    <button type="button" @onclick="Send" class="btn btn-primary col-md-2">Отправить</button>
+    <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
+    <button type="button" @onclick="OnButtonsClicked" class="btn btn-primary col-md-2">Отправить</button>
 </div>
+@*<div id="Area">
+    <p class="col-form-label"> Оставить коментарий для разработчика</p>
+    <textarea class="tab-content" name="comment" > </textarea>
+    <input type="submit" />
+</div>*@
 
 @code {
-    ParsePage comment=new ParsePage();
-    private async void Send()
-    {
-        var div= await JsRuntime.InvokeAsync<string>("accessDOMElement");
-        ParsePage page = new ParsePage() { Url = div };
-        serv.ParsePage(page);
-    }
+
     private string FileContent { get; set; } = null;
     protected async override void OnInitialized()
     {
@@ -59,10 +59,14 @@
         await JsRuntime.InvokeVoidAsync("SetDiv", FileContent);
         await JsRuntime.InvokeVoidAsync("SetDivTest", FileContent);
         return FileContent;
+
     }
     public async Task OnButtonClicked()
     {
         await JsRuntime.InvokeVoidAsync("HighlightText");
     }
-
+    public async Task OnButtonsClicked()
+    {
+        await serv.ParsePage("k");
+    }
 }
