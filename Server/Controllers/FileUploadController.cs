@@ -5,8 +5,9 @@ using System;
 using Mammoth;
 using System.IO;
 using System.Text;
-using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
+using Spire.Pdf;
+using System.Drawing;
+using Spire.Pdf.Graphics;
 
 namespace Duck.Server.Controllers
 {
@@ -14,7 +15,6 @@ namespace Duck.Server.Controllers
     [ApiController]
     public class FileUploadController : Controller
     {
-
         private readonly IWebHostEnvironment env;
         public FileUploadController(IWebHostEnvironment env)
         {
@@ -29,15 +29,30 @@ namespace Duck.Server.Controllers
             fs.Close();
             if (uploadedFile.FileName.EndsWith("pdf"))
             {
-                PdfReader reader = new PdfReader(path);
-                string text = string.Empty;
-                for (int page = 1; page <= reader.NumberOfPages; page++)
+                PdfDocument pdf = new PdfDocument();
+                pdf.LoadFromFile(path);
+                PdfDocument newPdf = new PdfDocument();
+                foreach (PdfPageBase page in pdf.Pages)
                 {
-                    text += PdfTextExtractor.GetTextFromPage(reader, page);
+                    PdfPageBase newPage = newPdf.Pages.Add(PdfPageSize.A4, new PdfMargins(0));
+                    PdfTextLayout loLayout = new PdfTextLayout();
+                    loLayout.Layout = PdfLayoutType.OnePage;
+                    page.CreateTemplate().Draw(newPage, new PointF(0, 0), loLayout);
                 }
-                var ffs = System.IO.File.CreateText($"{env.WebRootPath}\\{"Test.txt"}");
-                ffs.Write(text, 0, text.Length);
-                ffs.Close();
+                newPdf.SaveToFile($"{env.WebRootPath}\\{"Test.html"}", FileFormat.HTML);
+                //string sourcePdf = path;
+                //string targetHtml = $"{env.WebRootPath}\\{"Test.html"}";
+                //PdfToHtmlNet.Converter c = new PdfToHtmlNet.Converter();
+                //c.ConvertToFile(sourcePdf, targetHtml);
+                //PdfReader reader = new PdfReader(path);
+                //string text = string.Empty;
+                //for (int page = 1; page <= reader.NumberOfPages; page++)
+                //{
+                //    text += PdfTextExtractor.GetTextFromPage(reader, page);
+                //}
+                //var ffs = System.IO.File.CreateText($"{env.WebRootPath}\\{"Test.html"}");
+                //ffs.Write(text, 0, text.Length);
+                //ffs.Close();
             }
             if (uploadedFile.FileName.EndsWith("docx"))
             {
@@ -45,12 +60,10 @@ namespace Duck.Server.Controllers
                 var resultt = converter.ConvertToHtml($"{env.WebRootPath}\\{uploadedFile.FileName}");
                 var html = resultt.Value;
                 var pathh = $"{env.WebRootPath}\\{"Test.html"}";
-
                 using (FileStream fss = System.IO.File.Create(pathh))
                 {
                     Byte[] info = new UTF8Encoding(true).GetBytes(html);
                     fss.Write(info, 0, info.Length);
-
                 }
                 var warnings = resultt.Warnings;
 

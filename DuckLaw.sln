@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duck.Client", "Client\Duck.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duck.Shared", "Shared\Duck.Shared.csproj", "{0BED5C8E-283C-401E-BF9F-064D2E5E41FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWithRequest", "TestWithRequest\TestWithRequest.csproj", "{82DCC3D8-6A6E-4C2A-A44A-F9B0AC62CA5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWithRequest", "TestWithRequest\TestWithRequest.csproj", "{82DCC3D8-6A6E-4C2A-A44A-F9B0AC62CA5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
