@@ -8,7 +8,7 @@ namespace Duck.Client.Service
     interface IService
     {
         Task<Render> CreateNewBlogPost(Render request);
-        Task<string> ParsePage(string request);
+        Task<string> ParsePage(ParsePage request);
         Task<string> GetFile();
     }
 }

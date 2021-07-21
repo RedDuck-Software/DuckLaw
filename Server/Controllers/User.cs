@@ -89,12 +89,12 @@ namespace Duck.Server.Controllers
         public async Task<string> Test(ParsePage request)
         {
             string path = $"{env.WebRootPath}\\{"Test.html"}";
-            using (FileStream fs = System.IO.File.Create(path))
+           await using (FileStream fs = System.IO.File.Create(path))
             {
                 byte[] info = new UTF8Encoding(true).GetBytes(request.Url);
                 fs.Write(info, 0, info.Length);
             }
-            return "g";
+            return " ";
         }
     }
 }

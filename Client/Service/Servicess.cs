@@ -25,10 +25,10 @@ namespace Duck.Client.Service
             var result = await _http.GetAsync("api/User");
             return await result.Content.ReadAsStringAsync();
         }
-        public async Task<string> ParsePage(string request)
+        public async Task<string> ParsePage(ParsePage request)
         {
-            var resut = await _http.PostAsJsonAsync("api/User/b",request);
-            return  "k";
+            var resut = await _http.PostAsJsonAsync("api/User/parse",request);
+            return  " ";
         }
     }
 }
