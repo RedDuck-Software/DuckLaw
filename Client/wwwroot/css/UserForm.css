@@ -183,4 +183,14 @@ input[id="submitUpload"] {
     box-shadow: 0 2px 7px #4caf50;
 }
 
+.btn-danger-dark {
+    color: #fff;
+    background-color: #aa0000;
+    border-color: #9b0101;
+}
 
+    .btn-danger-dark:hover {
+        color: #fff;
+        background-color: #5a0000;
+        border-color: #721111;
+    }
