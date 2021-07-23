@@ -22,11 +22,11 @@ namespace Duck.Server.Controllers
             this.env = env;
         }
         [HttpPost]
-        public async Task<ActionResult<Render>> SaveDoc(Render Request)
+        public async Task<ActionResult<OpenDataBotModel>> SaveDoc(OpenDataBotModel Request)
         {
-            if (Request.Num == null)
+            if (Request.Number == null)
             {
-                return new ActionResult<Render>(new Render());
+                return new ActionResult<OpenDataBotModel>(new OpenDataBotModel());
             }
             Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
@@ -34,25 +34,29 @@ namespace Duck.Server.Controllers
             .CreateLogger();
             const string BaseUrl = "https://opendatabot.com";
             var service = new RootService(new Uri(BaseUrl));
-            //var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
+            var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
             var document = new HtmlDocument();
-            document.LoadHtml($"{env.WebRootPath}\\{"Test.html"}");
-            var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
-            foreach (var item in removenode)
-            {
-                item.RemoveAll();
-            }
-            HtmlNodeCollection links = document.DocumentNode.SelectNodes("//div[@class='container p-2 p-sm-3']");
-            string strr = default;
-            foreach (HtmlNode html in links)
-            {
-                strr += html.InnerHtml;
-            }
+            document.LoadHtml(pageContent);
             string path = $"{env.WebRootPath}\\{"Test.html"}";
-            using (FileStream fs = System.IO.File.Create(path))
+            CutAdvert(document,path);
+            static void CutAdvert(HtmlDocument document,string path)
             {
-                byte[] info = new UTF8Encoding(true).GetBytes(strr);
-                fs.Write(info, 0, info.Length);
+                var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
+                foreach (var item in removenode)
+                {
+                    item.RemoveAll();
+                }
+                HtmlNodeCollection links = document.DocumentNode.SelectNodes("//div[@class='container p-2 p-sm-3']");
+                string str = default;
+                foreach (HtmlNode html in links)
+                {
+                    str += html.InnerHtml;
+                }
+                using (FileStream fs = System.IO.File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(str);
+                    fs.Write(info, 0, info.Length);
+                }
             }
             return Request;
             static string LoadPage(string url)
@@ -89,12 +93,13 @@ namespace Duck.Server.Controllers
         public async Task<string> Test(ParsePage request)
         {
             string path = $"{env.WebRootPath}\\{"Test.html"}";
-           await using (FileStream fs = System.IO.File.Create(path))
+            byte[] url = new UTF8Encoding(true).GetBytes(request.Url);
+            using (FileStream fs = System.IO.File.Create(path))
             {
-                byte[] info = new UTF8Encoding(true).GetBytes(request.Url);
-                fs.Write(info, 0, info.Length);
+                fs.Write(url, 0, url.Length);
             }
             return " ";
         }
+
     }
 }

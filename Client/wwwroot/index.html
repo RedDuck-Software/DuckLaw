@@ -10,7 +10,6 @@
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/screen.css" rel="stylesheet" />
     <link href="Duck.Client.styles.css" rel="stylesheet" />
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 </head>
@@ -27,47 +26,11 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="lib/popper.js/umd/popper.min.js"></script>
     <script type="text/javascript" src="lib/twitter-bootstrap/js/bootstrap.min.js"></script>
-    <!--Roma Script-->
-    <!--<script>
-        window.HighlightText = () => {
-            console.log("in HighlightText");
-            ////var sandbox = document.getElementById('sandbox');
-            ////var colors = new ColorPicker(document.querySelector('.color-picker'));
-            ////var hltr = new TextHighlighter(sandbox);
-            ////colors.onColorChange(function (color) {
-            ////    hltr.setColor(color);
-            ////});
-            var range = window.getSelection().getRangeAt(0),
-                span = document.createElement('span');
-            span.style.backgroundColor = '#ffd902';
-            span.appendChild(range.extractContents());
-            range.insertNode(span);
-
-            console.log("out HighlightText");
-        };
-    </script>-->
-    <script type="text/javascript" src="./TextHighlighter Demo _ Simple Usage_files/rainbow-custom.min.js.загружено"></script>
-    <script type="text/javascript" src="./TextHighlighter Demo _ Simple Usage_files/ColorPicker.js.загружено"></script>
-    <script type="text/javascript" src="./TextHighlighter Demo _ Simple Usage_files/TextHighlighter.js.загружено"></script>
-    <!--<script type="text/javascript">
-        {
-            window.HighlightText = () => {
-            //var removeBtn = document.getElementById('remove');
-            var sandbox = document.getElementById('sandbox');
-            var colors = new ColorPicker(document.querySelector('.color-picker'));
-            var hltr = new TextHighlighter(sandbox);
-            colors.onColorChange(function (color) {
-                hltr.setColor(color);
-            });
-            //removeBtn.addEventListener('click', function () {
-            //    hltr.removeHighlights();
-            //});
-        };
-    </script>-->
     <!-- Display HTML file -->
     <script>
         window.SetDiv = (str) => {
@@ -84,14 +47,13 @@
             var t = '';
             var CONTAINER_ID = '5kjl3_container_id';
             var BUBBLE_COLOR = 'rgb(47, 47, 47)';
-            var HIGHLIGHT_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" fill="white" d="M24.001 8.534l-11.103 11.218-5.898 1.248 1.361-5.784 11.104-11.216 4.536 4.534zm-24 10.466l-.001 2h5v-2h-4.999z"/></svg>';
-            var TWITTER_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z"/></svg>';
+            var Highlight_Icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z"/></svg>';
             var config = {};
             var defaultConfig = {};
             defaultConfig.bubbleColor = BUBBLE_COLOR;
             defaultConfig.buttons = [
                 {
-                    svg: TWITTER_ICON_SVG,
+                    svg: Highlight_Icon,
                     onclick: window.HighlightText = () => {
                         console.log("in HighlightText");
                         var range = window.getSelection().getRangeAt(0),
@@ -204,7 +166,6 @@
                     }));
                 });
 
-                // Calculate bounds of range
                 var cRects = range.getClientRects();
                 var hBounds = [];
                 for (var i = 0; i < cRects.length; i++) {
@@ -257,7 +218,6 @@
                     e.parentElement.removeChild(e);
                 }
             }
-
             function init(customConfig) {
                 config = defaultConfig;
                 Object.keys(customConfig || {}).forEach(function (k) {
@@ -280,13 +240,14 @@
 
         });
     </script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <!--<script type="text/javascript">
-        $('#product a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-    </script>-->
+    <script>
+        function accessDOMElement() {
+            var div;
+            div = document.getElementById('htmldisplayer');
+            return div.innerHTML;
+        }
+    </script>
+
 </body>
 
 </html>

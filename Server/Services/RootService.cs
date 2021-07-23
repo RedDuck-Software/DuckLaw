@@ -24,7 +24,7 @@ namespace Duck.Server.Services
             _rootAPI = RestService.For<IRootAPI>(_httpClient);
         }
 
-        public async Task<RootResponse> SearchAsync(Render root)
+        public async Task<RootResponse> SearchAsync(OpenDataBotModel root)
         {
             return await _rootAPI.GetResultAsync(root).ConfigureAwait(false);
         }
