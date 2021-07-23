@@ -33,12 +33,14 @@
             <div id="htmldisplayerTest"></div>
         </div>
     </div>
-</div>
-<hr />
-<div class="form-row">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
-    <button type="button" @onclick="Send" class="btn btn-primary col-md-2">Отправить</button>
+    <hr />
+    <div class="form-row">
+            <label for="exampleFormControlTextarea1">Залиште відгук для адміністрації сайта</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
+    </div>
+    <div class="row justify-content-center">
+        <button type="button" @onclick="Send" class="btn btn-primary mt-2 mb-2">Отправить</button>
+    </div>
 </div>
 @code {
     ParsePage comment = new ParsePage();
