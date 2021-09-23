@@ -90,15 +90,19 @@ namespace Duck.Server.Controllers
             return text;
         }
         [HttpPost("parse")]
-        public async Task<string> Test(ParsePage request)
+        public async Task<bool> Test(ParsePage request)
         {
-            string path = $"{env.WebRootPath}\\{"Test.html"}";
-            byte[] url = new UTF8Encoding(true).GetBytes(request.Url);
-            using (FileStream fs = System.IO.File.Create(path))
+            var guid = Guid.NewGuid().ToString();
+            foreach (var url in request.Urls)
             {
-                fs.Write(url, 0, url.Length);
+                string path = $"{env.WebRootPath+ "\\user's comment"}\\{DateTime.Now.ToString("FFFFFFF ")+guid+".html" }";
+                byte[] bytes = new UTF8Encoding(true).GetBytes(url);
+                using (FileStream fs = System.IO.File.Create(path))
+                {
+                    fs.Write(bytes, 0, bytes.Length);
+                }
             }
-            return " ";
+            return true;
         }
 
     }
