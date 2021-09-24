@@ -4,24 +4,251 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Duck</title>
+    <title>RedDuckLaw</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="lib/twitter-bootstrap/css/bootstrap.min.css" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/screen.css" rel="stylesheet" />
     <link href="Duck.Client.styles.css" rel="stylesheet" />
-</head> 
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+</head>
 <body>
     <div id="app">
-        <div padding-top: 50px; class="spinner"></div>
+        <div class="d-flex justify-content-center spinner-middle-of-the-screen">
+            <div class="spinner-border text-danger spinner-size-5" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     </div>
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/popper.js/umd/popper.min.js"></script>
+    <script type="text/javascript" src="lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <!-- Display HTML file -->
+    <script>
+        window.SetDiv = (str) => {
+            var d1 = document.getElementById('htmldisplayer');
+            d1.insertAdjacentHTML('afterbegin', str);
+        }
+        window.SetDivTest = (str) => {
+            var d2 = document.getElementById('htmldisplayerTest');
+            d2.insertAdjacentHTML('afterbegin', str);
+        }
+    </script>
+    <script>
+        (function () {
+            var t = '';
+            var CONTAINER_ID = '5kjl3_container_id';
+            var BUBBLE_COLOR = 'rgb(255, 255, 255)';
+            var Highlight_Icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z"/></svg>';
+            var config = {};
+            var defaultConfig = {};
+            defaultConfig.bubbleColor = BUBBLE_COLOR;
+            defaultConfig.buttons = [
+                {
+                    svg: Highlight_Icon,
+                    onclick: window.HighlightText = () => {
+                        console.log("in HighlightText");
+                        var range = window.getSelection().getRangeAt(0),
+                            span = document.createElement('span');
+                        span.style.backgroundColor = '#ffd902';
+                        span.appendChild(range.extractContents());
+                        range.insertNode(span);
+                        console.log("out HighlightText");
+                    }
+                }
+            ];
+
+            var enc = encodeURI;
+
+            function encQ(s) {
+                return enc('"' + s + '"');
+            }
+
+            function setStyle(el, obj, val) {
+                var styles = (el.getAttribute('style') || '').split(';');
+                var orig = {};
+                var newStyles = [];
+                styles.forEach(function (s) {
+                    if (s === '') {
+                        return;
+                    }
+                    var parts = s.split(':');
+                    orig[parts[0].trim()] = parts[1].trim();
+                });
+                var toSerialize = {};
+
+                if (typeof val !== 'undefined') {
+                    orig[obj] = val;
+                    toSerialize = orig;
+                } else {
+                    toSerialize = obj;
+                }
+
+                Object.keys(toSerialize).forEach(function (k) {
+                    if (toSerialize[k] !== null) {
+                        newStyles.push(k + ': ' + toSerialize[k]);
+                    }
+                });
+                el.setAttribute('style', newStyles.join('; '));
+            }
+
+            function generateButton(svgString, onclick) {
+                var parser = new DOMParser();
+                var svg = parser.parseFromString(svgString, "image/svg+xml").childNodes[0];
+                var hButton = document.createElement('div');
+                hButton.appendChild(svg);
+                setStyle(hButton, {
+                    display: 'inline-block',
+                    margin: '0',
+                    cursor: 'pointer',
+                    padding: '7px'
+                });
+
+                hButton.onclick = hButton.ontouchend = onclick;
+
+                return hButton;
+            }
+
+            function insertHighlightOptionNode(selection) {
+                var range = selection.getRangeAt(0);
+                if (range.collapsed || !range.toString().trim()) {
+                    return;
+                }
+
+                var container = document.createElement('div');
+                container.id = CONTAINER_ID;
+                setStyle(container, {
+                    position: 'absolute',
+                    color: 'white',
+                    visibility: 'hidden',
+                    padding: '0 7px'
+                });
+                container.onmousedown = container.ontouchstart = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+                container.onmouseup = container.ontouchend = function (e) {
+                    e.stopPropagation();
+                };
+
+                var bubbleOptions = document.createElement('div');
+                setStyle(bubbleOptions, {
+                    'white-space': 'nowrap',
+                    'border-radius': '4px',
+                    display: 'inline-block',
+                    background: defaultConfig.bubbleColor,
+                    padding: '0 4px',
+                    'border' : '1px solid black'
+                });
+                var downCarrot = document.createElement('div');
+                setStyle(downCarrot, {
+                    width: 0,
+                    height: 0,
+                    'border-left': '6px solid transparent',
+                    'border-right': '6px solid transparent',
+                    'border-top': '10px solid black',
+                    margin: 'auto',
+                });
+
+                container.appendChild(bubbleOptions);
+                container.appendChild(downCarrot);
+
+                config.buttons.forEach(function (buttonConfig) {
+                    bubbleOptions.appendChild(generateButton(buttonConfig.svg, function (e) {
+                        buttonConfig.onclick(e, range);
+                    }));
+                });
+
+                var cRects = range.getClientRects();
+                var hBounds = [];
+                for (var i = 0; i < cRects.length; i++) {
+                    hBounds.push(cRects[i].left);
+                    hBounds.push(cRects[i].right);
+                }
+                var rLeft = Math.min.apply(null, hBounds);
+                var rRight = Math.max.apply(null, hBounds);
+
+                var y = cRects[0].top + window.scrollY;
+                var x = rLeft + window.scrollX + ((rRight - rLeft) / 2);
+
+                document.body.appendChild(container);
+
+                var containerHeight = window.getComputedStyle(container).getPropertyValue('height');
+                var containerWidth = window.getComputedStyle(container).getPropertyValue('width');
+                var cWidth = parseInt(containerWidth.replace('px', ''));
+                var windowWidth = window.innerWidth;
+
+                var left = x - cWidth / 2;
+                if (left < 0) {
+                    setStyle(container, 'left', left + 'px');
+                } else if (left + cWidth > windowWidth) {
+                    setStyle(container, 'right', 0 + 'px');
+                } else {
+                    setStyle(container, 'left', left + 'px');
+                }
+
+                var top = y - parseInt(containerHeight.replace('px', ''))
+                if (top < 0) {
+                    top = 0
+                }
+
+                setStyle(container, 'z-index', 99999);
+                setStyle(container, 'top', top + 'px');
+                setStyle(container, 'visibility', 'visible');
+            }
+
+            function showHighlightOptions(e) {
+                t = document.getSelection();
+
+                if (t) {
+                    insertHighlightOptionNode(t);
+                }
+            }
+
+            function clear() {
+                var e = document.getElementById(CONTAINER_ID);
+                if (e) {
+                    e.parentElement.removeChild(e);
+                }
+            }
+            function init(customConfig) {
+                config = defaultConfig;
+                Object.keys(customConfig || {}).forEach(function (k) {
+                    config[k] = customConfig[k];
+                });
+                document.onmouseup = document.ontouchend = showHighlightOptions;
+                document.onmousedown = document.ontouchstart = clear;
+            }
+
+            window.TinyQ = {
+                init: function (config) {
+                    init(config)
+                }
+            }
+
+        })();</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            window.TinyQ.init();
+
+        });
+    </script>
+    <script>
+        function accessDOMElement() {
+            var div;
+            div = document.getElementById('htmldisplayer');
+            return div.innerHTML;
+        }
+    </script>
+
 </body>
 
 </html>

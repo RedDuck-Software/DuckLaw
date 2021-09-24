@@ -1,23 +1,69 @@
-﻿<LoadingScreen>
-    @page "/Result"
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="css/Result.css" rel="stylesheet" />
+﻿@*@page "/Result/{doc}"*@
+@page "/Result"
+@inject Duck.Client.Service.IService serv
+@inject NavigationManager NavigationManager
+@inject HttpClient client
+@inject IJSRuntime js
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+@using Duck.Shared
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="css/Result.css" rel="stylesheet" />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-around">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-around" id="navbarTogglerDemo03">
+        <form method="get" action="Test.html">
+            <button class="btn btn-dark" type="submit"><i class="fa fa-fw fa-download"></i>Сохранить</button>
+        </form>
+        <form class="form-inline my-12 my-lg-0">
+            <button class="btn btn-dark" id="openPopup" type="button" @onclick="OnButtonClicked"><i class="fa fa-fw fa-pencil"></i>Highlight Text</button>
+        </form>
+    </div>
+</nav>
 
-    <body>
-        <div>
-            <div class="navbar">
-                <a href="#"><i class="fa fa-fw fa-download"></i> Сохранить </a>
-                <a href="#"><i class="fa fa-fw fa-pencil"></i>Редактировать </a>
-                <a href="#"><i class="fa fa-fw fa-list"></i>Выделить </a>
-            </div>
-            <div id="Area">
-                <p class="col-form-label"> Оставить коментарий для разработчика</p>
-                <textarea  class="tab-content" name="comment" cols="90" rows="5"> </textarea>
-                <input type="submit"/>
-            </div>
+<div id="includedContent"></div>
+<div class="container">
+    <div class="row" data-spy="scroll">
+        <div class="col-lg" id="sandbox">
+            <div id="htmldisplayer"></div>
         </div>
-    </body>
-    @code {
-
+        <div class="col-lg">
+            <div id="htmldisplayerTest"></div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-row">
+            <label for="exampleFormControlTextarea1">Залиште відгук для адміністрації сайта</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
+    </div>
+    <div class="row justify-content-center">
+        <button type="button" @onclick="Send" class="btn btn-primary mt-2 mb-2">Отправить</button>
+    </div>
+</div>
+@code {
+    ParsePage comment = new ParsePage();
+    private async void Send()
+    {
+        var div = await JsRuntime.InvokeAsync<string>("accessDOMElement");
+        ParsePage page = new ParsePage() { Url = div };
+        serv.ParsePage(page);
     }
-</LoadingScreen>
+    private string FileContent { get; set; } = null;
+    protected async override void OnInitialized()
+    {
+        await LoadFiles();
+    }
+    private async Task<string> LoadFiles()
+    {
+        FileContent = await serv.GetFile();
+        await JsRuntime.InvokeVoidAsync("SetDiv", FileContent);
+        await JsRuntime.InvokeVoidAsync("SetDivTest", FileContent);
+        return FileContent;
+    }
+    public async Task OnButtonClicked()
+    {
+        await JsRuntime.InvokeVoidAsync("HighlightText");
+    }
+}

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.JSInterop;
+using MudBlazor.Services;
 
 namespace Duck.Client
 {
@@ -19,7 +21,9 @@ namespace Duck.Client
             builder.RootComponents.Add<App>("#app");
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<IService, Servicess>();
+            builder.Services.AddMudServices();
             await builder.Build().RunAsync();
+
         }
     }
 }

@@ -1,0 +1,122 @@
+﻿@page "/reyestrcourtform"
+@inject Duck.Client.Service.IService serv
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <EditForm Model="@openDataBotModel" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Суд</h4>
+                        <div class="form-group">
+                            <label>Найменування суду</label>
+                            <InputText @bind-Value="openDataBotModel.CourtCode" class="form-control" placeholder="Харківський апеляційний суд" />
+                        </div>
+                        <div class="form-group">
+                            <label>Тип інстанциї</label>
+                            <InputSelect class="form-control" @bind-Value="openDataBotModel.Stage">
+                                <option value="">Оберіть</option>
+                                @foreach (var value in openDataBotModel.Stages)
+                                {
+                                    <option value="@value.Value">@value.Name</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Судова справа</h4>
+                        <div class="form-group">
+                            <label>Форма судочинства</label>
+                            <InputSelect TValue="int" class="form-control" @bind-Value="openDataBotModel.JudgmentCode">
+                                <option value="0" selected>Оберіть</option>
+                                @foreach (var value in openDataBotModel.JudgmentCodes)
+                                {
+                                    <option value="@value.Value">@value.Name</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="form-group">
+                            <label>Номер справи</label>
+                            <InputText @bind-Value="openDataBotModel.Number" class="form-control" placeholder="621/2261/18" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Судове рішення</h4>
+                        <div class="form-group">
+                            <label>Реєстраційний № рішення</label>
+                            <InputText @bind-Value="openDataBotModel.Number" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Період ухвалення</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">з</span>
+                                        </div>
+                                        <input type="date"
+                                               min="1991-01-01"
+                                               max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
+                                               class="form-control"
+                                               @bind="@openDataBotModel.DateFrom"
+                                               @onfocusout="@(() => openDataBotModel.DateFrom = CheckDate(openDataBotModel.DateFrom))" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">по</span>
+                                        </div>
+                                        <input type="date"
+                                               min="1991-01-01"
+                                               max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
+                                               class="form-control"
+                                               @bind="@openDataBotModel.DateTo"
+                                               @onfocusout="@(() => openDataBotModel.DateTo = CheckDate(openDataBotModel.DateTo))" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Форма судового рішення</label>
+                            <InputSelect TValue="int" class="form-control" @bind-Value="openDataBotModel.JusticeCode">
+                                <option value="0" selected>Оберіть</option>
+                                @foreach (var value in openDataBotModel.JusticeCodes)
+                                {
+                                    <option value="@value.Value">@value.Name</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="mb-3">Пошук за контекстом</h4>
+                        <div class="form-group">
+                            <label>Пошук в вступній частині рішення</label>
+                            <InputText @bind-Value="openDataBotModel.TextIntro" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Пошук в резолютивній частині рішення</label>
+                            <InputText @bind-Value="openDataBotModel.TextResolution" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Пошук в тексті рішення</label>
+                            <InputText @bind-Value="openDataBotModel.Text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center border-top">
+                    <button type="submit" class="btn btn-danger m-3">Пошук</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

@@ -8,7 +8,7 @@ namespace Duck.Server.Controllers
 {
     public class Model
     {
-        public class Root
+        public class Roottt
         {
             [JsonProperty("status")]
             public string status { get; set; }
