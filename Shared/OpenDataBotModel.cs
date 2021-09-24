@@ -1,4 +1,5 @@
-﻿using Refit;
+﻿using Duck.Shared.Attributes;
+using Refit;
 using System;
 using System.Collections.Generic;
 
@@ -37,9 +38,11 @@ namespace Duck.Shared
         public string Limit { get; set; }
 
         [AliasAs("date_from")]
+        [DateRange]
         public DateTime? DateFrom { get; set; } = null;
 
         [AliasAs("date_to")]
+        [DateRange]
         public DateTime? DateTo { get; set; } = null;
 
         [AliasAs("number")]
