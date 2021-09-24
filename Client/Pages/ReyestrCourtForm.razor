@@ -67,21 +67,8 @@
                                                min="1991-01-01"
                                                max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
                                                class="form-control"
-                                               @onchange="@((date) =>
-                                                            {
-                                                                if (date.Value != null)
-                                                                {
-                                                                    DateTime dateTime = DateTime.Parse(date.Value.ToString());
-                                                                    if (dateTime > new DateTime(1991, 01, 01) && dateTime < DateTime.Now)
-                                                                    {
-                                                                        openDataBotModel.DateFrom = dateTime;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        openDataBotModel.DateFrom = null;
-                                                                    }
-                                                                }
-                                                            })"/>
+                                               @bind="@openDataBotModel.DateFrom"
+                                               @onfocusout="@(() => openDataBotModel.DateFrom = CheckDate(openDataBotModel.DateFrom))" />
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -93,21 +80,8 @@
                                                min="1991-01-01"
                                                max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
                                                class="form-control"
-                                               @onchange="@((date) =>
-                                                            {
-                                                                if (date.Value != null)
-                                                                {
-                                                                    DateTime dateTime = DateTime.Parse(date.Value.ToString());
-                                                                    if (dateTime > new DateTime(1991, 01, 01) && dateTime < DateTime.Now)
-                                                                    {
-                                                                        openDataBotModel.DateTo = dateTime;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        openDataBotModel.DateTo = null;
-                                                                    }
-                                                                }
-                                                            })"/>
+                                               @bind="@openDataBotModel.DateTo"
+                                               @onfocusout="@(() => openDataBotModel.DateTo = CheckDate(openDataBotModel.DateTo))" />
                                     </div>
                                 </div>
                             </div>
@@ -163,5 +137,19 @@
         NavigationManager.NavigateTo("/Result");
 
         // Process the form
+    }
+
+    private DateTime? CheckDate(DateTime? date)
+    {
+        if (date != null
+            && date > new DateTime(1991, 01, 01)
+            && date < DateTime.Now)
+        {
+            return date;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
