@@ -1,8 +1,5 @@
 ﻿@page "/reyestrcourtform"
-@using Microsoft.Extensions.Logging
 @inject Duck.Client.Service.IService serv
-@inject NavigationManager NavigationManager
-@inject ILogger<ReyestrCourtForm> Logger
 
 <div class="container">
     <div class="row">
@@ -123,33 +120,3 @@
         </div>
     </div>
 </div>
-
-@code {
-    private EditContext editContext;
-    private OpenDataBotModel openDataBotModel = new();
-
-    private void HandleValidSubmit()
-    {
-        Logger.LogInformation("HandleValidSubmit called: Processing the form");
-
-        Logger.LogInformation(openDataBotModel.ToString());
-        serv.CreateNewBlogPost(openDataBotModel);
-        NavigationManager.NavigateTo("/Result");
-
-        // Process the form
-    }
-
-    private DateTime? CheckDate(DateTime? date)
-    {
-        if (date != null
-            && date > new DateTime(1991, 01, 01)
-            && date < DateTime.Now)
-        {
-            return date;
-        }
-        else
-        {
-            return null;
-        }
-    }
-}
