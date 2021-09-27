@@ -22,6 +22,16 @@ namespace Duck.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAll",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("*")
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod();
+                                  });
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -47,6 +57,8 @@ namespace Duck.Server
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseEndpoints(endpoints =>
             {
