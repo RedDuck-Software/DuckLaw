@@ -1,8 +1,5 @@
 ﻿@page "/reyestrcourtform"
-@using Microsoft.Extensions.Logging
 @inject Duck.Client.Service.IService serv
-@inject NavigationManager NavigationManager
-@inject ILogger<ReyestrCourtForm> Logger
 
 <div class="container">
     <div class="row">
@@ -63,7 +60,12 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">з</span>
                                         </div>
-                                        <InputDate @bind-Value="openDataBotModel.DateFrom" class="form-control"></InputDate>
+                                        <input type="date"
+                                               min="1991-01-01"
+                                               max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
+                                               class="form-control"
+                                               @bind="@openDataBotModel.DateFrom"
+                                               @onfocusout="@(() => openDataBotModel.DateFrom = CheckDate(openDataBotModel.DateFrom))" />
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -71,7 +73,12 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">по</span>
                                         </div>
-                                        <InputDate @bind-Value="openDataBotModel.DateTo" class="form-control"></InputDate>
+                                        <input type="date"
+                                               min="1991-01-01"
+                                               max="@(DateTime.Now.ToString("yyyy-MM-dd"))"
+                                               class="form-control"
+                                               @bind="@openDataBotModel.DateTo"
+                                               @onfocusout="@(() => openDataBotModel.DateTo = CheckDate(openDataBotModel.DateTo))" />
                                     </div>
                                 </div>
                             </div>
@@ -106,26 +113,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-end border-top">
-                    <button type="submit" class="btn btn-danger">Пошук</button>
+                <div class="row justify-content-center border-top">
+                    <button type="submit" class="btn btn-danger m-3">Пошук</button>
                 </div>
             </EditForm>
         </div>
     </div>
 </div>
-
-@code {
-    private EditContext editContext;
-    private OpenDataBotModel openDataBotModel = new();
-
-    private void HandleValidSubmit()
-    {
-        Logger.LogInformation("HandleValidSubmit called: Processing the form");
-
-        Logger.LogInformation(openDataBotModel.ToString());
-        serv.CreateNewBlogPost(openDataBotModel);
-        NavigationManager.NavigateTo("/Result");
-
-        // Process the form
-    }
-}
