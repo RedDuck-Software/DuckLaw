@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App duck-law-server
 on:
   push:
     branches:
-    - deploy-to-azure
+    - master
 env:
   AZURE_WEBAPP_NAME: duck-law-server
   AZURE_WEBAPP_PACKAGE_PATH: Server\published
