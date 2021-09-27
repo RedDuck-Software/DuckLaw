@@ -238,14 +238,11 @@
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             window.TinyQ.init();
-
         });
     </script>
     <script>
-        function accessDOMElement() {
-            var div;
-            div = document.getElementById('htmldisplayer');
-            return div.innerHTML;
+        function accessDOMElement(name) {
+            return document.getElementById(name).innerHTML;
         }
     </script>
 
