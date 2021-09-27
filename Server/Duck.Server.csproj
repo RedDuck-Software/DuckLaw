@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Duck.Client.csproj" />
     <ProjectReference Include="..\Shared\Duck.Shared.csproj" />
   </ItemGroup>
 	<ItemGroup>
