@@ -19,11 +19,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Duck.Client.csproj" />
     <ProjectReference Include="..\Shared\Duck.Shared.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<Watch Include="..\Client\**\*.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="wwwroot\NewFolder\**" />
+	  <Compile Remove="wwwroot\result\**" />
+	  <Content Remove="wwwroot\NewFolder\**" />
+	  <Content Remove="wwwroot\result\**" />
+	  <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+	  <EmbeddedResource Remove="wwwroot\result\**" />
+	  <None Remove="wwwroot\NewFolder\**" />
+	  <None Remove="wwwroot\result\**" />
 	</ItemGroup>
 
 </Project>

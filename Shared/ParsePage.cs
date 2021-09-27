@@ -9,7 +9,7 @@ namespace Duck.Shared
 {
     public class ParsePage
     {
-        [AliasAs("url")]
-        public string Url { get; set; }
+        [AliasAs("urls")]
+        public string [] Urls { get; set; }
     }
 }

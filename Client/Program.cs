@@ -19,11 +19,16 @@ namespace Duck.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            var apiUrlBase = builder.Configuration["ServerUrlBase"];
+
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrlBase) });
+
+            Console.WriteLine("url base: " + apiUrlBase);
+
             builder.Services.AddScoped<IService, Servicess>();
             builder.Services.AddMudServices();
             await builder.Build().RunAsync();
-
         }
     }
 }
