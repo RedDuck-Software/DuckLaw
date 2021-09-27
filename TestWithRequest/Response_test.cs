@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace TestWithRequest
 {
     [TestClass]
-    public class UnitTest1
+    public class Response_test
     {
         private MockHttpHandler _mockHttpRequest;
         private readonly string BaseUri = "https://opendatabot.com/api/v2/court?apiKey=d68Uy7PMjD7t";
@@ -33,42 +33,23 @@ namespace TestWithRequest
         {
             var client = new HttpClient(_mockHttpRequest);
             var response = await client.GetAsync(BaseUri);
-
-            #region ResponseJS
-            /*{{
-                "status": "all right",
-                "data": {
-                  "count": 2,
-                  "items": [
-                    {
-                      "link": "https://opendatabot.com/api/v2/"
-                    }
-                  ]
-                }
-              }}*/
-            #endregion
             var responseResult = JToken.Parse(await response.Content.ReadAsStringAsync());
 
             _mockHttpRequest.Verify();
             response.Content.Should().NotBeNull();
-            responseResult["data"]["items"].Should().HaveCount(1);
-            responseResult["data"]["count"].ToString().Should().Be("2");
-            responseResult["data"]["items"].Should().NotBeNullOrEmpty();
+            responseResult["items"].Should().HaveCount(1);
+            responseResult["count"].ToString().Should().Be("1");
+            responseResult["items"].Should().NotBeNullOrEmpty();
             responseResult["status"].ToString().Should().Be("all right");
-            responseResult["data"]["items"][0]["link"].ToString().Should().Be("https://opendatabot.com/api/v2/");
+            responseResult["items"][0]["link"].ToString().Should().Be("https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
         }
 
         private RootResponse MockDataResponse => new RootResponse
         {
-            status = "all right",
-            data = new Data
-            {
-                count = 2,
-                items = new List<Item>
-                {
-                    new Item { link = "https://opendatabot.com/api/v2/"}
-                }
-            }
+            Status = "all right",
+            Count = 1,
+            Items = new List<Item> { new Item() {Link = "https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4" } }
+           
         };
     }
 }

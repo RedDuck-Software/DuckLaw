@@ -3,6 +3,8 @@ using Duck.Shared;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MockHttp;
+using MockHttp.Json;
 using Serilog;
 using System;
 using System.IO;
@@ -14,10 +16,10 @@ namespace Duck.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class User : ControllerBase
+    public class FileController : ControllerBase
     {
         private readonly IWebHostEnvironment env;
-        public User(IWebHostEnvironment env)
+        public FileController(IWebHostEnvironment env)
         {
             this.env = env;
         }
@@ -32,14 +34,22 @@ namespace Duck.Server.Controllers
             .WriteTo.Console()
             .MinimumLevel.Verbose()
             .CreateLogger();
+            MockHttpHandler mockHttp = new MockHttpHandler();
+            mockHttp.When(matching => matching.Method("GET").RequestUri("https://opendatabot.com/*"))
+                .RespondJson(HttpStatusCode.OK, new { status = "ok",
+                    count = 1,
+                    items = new[] { new { link = "https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4" } } })
+                .Verifiable();
+
             const string BaseUrl = "https://opendatabot.com";
-            var service = new RootService(new Uri(BaseUrl));
-            var pageContent = LoadPage("https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4");
+            var service = new RootService(new Uri(BaseUrl), mockHttp);
+            var results = await service.SearchAsync(Request);
+            var pageContent = LoadPage(results.Items[0].Link);
             var document = new HtmlDocument();
             document.LoadHtml(pageContent);
-            string path = $"{env.WebRootPath}\\{"Test.html"}";
-            CutAdvert(document,path);
-            static void CutAdvert(HtmlDocument document,string path)
+            string path = $"{env.WebRootPath}\\{"MockTest.html"}";
+            CutAdvert(document, path);
+            static void CutAdvert(HtmlDocument document, string path)
             {
                 var removenode = document.DocumentNode.SelectNodes("//div[@class='jumbotron bg-light']");
                 foreach (var item in removenode)
@@ -86,11 +96,10 @@ namespace Duck.Server.Controllers
         [HttpGet]
         public string GetDoc(string url)
         {
-            var text = System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
-            return text;
+            return System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
         }
-        [HttpPost("parse")]
-        public async Task<string> Test(ParsePage request)
+        [HttpPost("saveComment")]
+        public async Task<bool> SaveUserComment(ParsePage request)
         {
             string path = $"{env.WebRootPath}\\{"Test.html"}";
             byte[] url = new UTF8Encoding(true).GetBytes(request.Url);
@@ -98,7 +107,7 @@ namespace Duck.Server.Controllers
             {
                 fs.Write(url, 0, url.Length);
             }
-            return " ";
+            return true;
         }
 
     }

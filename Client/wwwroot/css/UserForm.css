@@ -21,11 +21,6 @@
     cursor: pointer;
     z-index: 2;
 }
-
-.drag-enter {
-    box-shadow: var(--mud-elevation-10);
-}
-
 .list {
     padding: 2em;
     min-width: 100%;

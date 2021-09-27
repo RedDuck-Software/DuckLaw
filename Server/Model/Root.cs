@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using Refit;
+﻿using Refit;
 
 namespace Duck.Server.Model
 {
