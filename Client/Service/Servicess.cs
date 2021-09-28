@@ -17,17 +17,17 @@ namespace Duck.Client.Service
         }
         public async Task<OpenDataBotModel> CreateNewBlogPost(OpenDataBotModel request)
         {
-            var result = await _http.PostAsJsonAsync("api/User", request);
+            var result = await _http.PostAsJsonAsync("api/File", request);
             return await result.Content.ReadFromJsonAsync<OpenDataBotModel>();
         }
         public async Task<string> GetFile()
         {
-            var result = await _http.GetAsync("api/User");
+            var result = await _http.GetAsync("api/File");
             return await result.Content.ReadAsStringAsync();
         }
         public void ParsePage(ParsePage request)
         {
-            var result = _http.PostAsJsonAsync("api/User/parse", request);
+            var result = _http.PostAsJsonAsync("api/File/saveComment", request);
         }
 
     }

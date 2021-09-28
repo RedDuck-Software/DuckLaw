@@ -7,9 +7,8 @@ using Duck.Server.Model;
 using Duck.Server.Responses;
 using Duck.Shared;
 using HttpClientDiagnostics;
-
+using MockHttp;
 using Refit;
-using static Duck.Server.Controllers.Model;
 
 namespace Duck.Server.Services
 {
@@ -18,9 +17,9 @@ namespace Duck.Server.Services
         private readonly HttpClient _httpClient;
         private readonly IRootAPI _rootAPI;
 
-        public RootService(Uri baseUrl)
+        public RootService(Uri baseUrl, MockHttpHandler mockclient)
         {
-            _httpClient = new HttpClient(new HttpClientDiagnosticsHandler(new HttpClientHandler())) { BaseAddress = baseUrl };
+            _httpClient = new HttpClient(mockclient) { BaseAddress = baseUrl };
             _rootAPI = RestService.For<IRootAPI>(_httpClient);
         }
 
