@@ -23,6 +23,7 @@ namespace Duck.Server.Controllers
         {
             this.env = env;
         }
+
         [HttpPost]
         public async Task<ActionResult<OpenDataBotModel>> SaveDoc(OpenDataBotModel Request)
         {
@@ -36,9 +37,13 @@ namespace Duck.Server.Controllers
             .CreateLogger();
             MockHttpHandler mockHttp = new MockHttpHandler();
             mockHttp.When(matching => matching.Method("GET").RequestUri("https://opendatabot.com/*"))
-                .RespondJson(HttpStatusCode.OK, new { status = "ok",
+                .RespondJson(HttpStatusCode.OK, new
+                {
+                    status = "ok",
                     count = 1,
-                    items = new[] { new { link = "https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4" } } })
+                    items = new[] { new { link = "https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4" } }
+                })
+
                 .Verifiable();
 
             const string BaseUrl = "https://opendatabot.com";
@@ -101,11 +106,15 @@ namespace Duck.Server.Controllers
         [HttpPost("saveComment")]
         public async Task<bool> SaveUserComment(ParsePage request)
         {
-            string path = $"{env.WebRootPath}\\{"Test.html"}";
-            byte[] url = new UTF8Encoding(true).GetBytes(request.Url);
-            using (FileStream fs = System.IO.File.Create(path))
+            var guid = Guid.NewGuid().ToString();
+            foreach (var url in request.Urls)
             {
-                fs.Write(url, 0, url.Length);
+                string path = $"{env.WebRootPath + "\\user's comment"}\\{DateTime.Now.ToString("FFFFFFF ") + guid + ".html" }";
+                byte[] bytes = new UTF8Encoding(true).GetBytes(url);
+                using (FileStream fs = System.IO.File.Create(path))
+                {
+                    fs.Write(bytes, 0, bytes.Length);
+                }
             }
             return true;
         }

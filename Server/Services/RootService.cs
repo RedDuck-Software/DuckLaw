@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Duck.Server.Responses;
 using Duck.Shared;
+using HttpClientDiagnostics;
 using MockHttp;
 using Refit;
 

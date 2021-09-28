@@ -27,7 +27,7 @@ namespace Duck.Client.Service
         }
         public void ParsePage(ParsePage request)
         {
-            var result = _http.PostAsJsonAsync("api/File/parse", request);
+            var result = _http.PostAsJsonAsync("api/File/saveComment", request);
         }
 
     }
