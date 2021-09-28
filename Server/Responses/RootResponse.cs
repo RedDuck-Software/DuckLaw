@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Duck.Server.Responses
@@ -21,4 +18,5 @@ namespace Duck.Server.Responses
         [JsonProperty("items")]
         public List<Item> Items { get; set; }
     }
+    
 }

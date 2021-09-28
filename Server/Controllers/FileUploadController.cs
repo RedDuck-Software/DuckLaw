@@ -40,19 +40,6 @@ namespace Duck.Server.Controllers
                     page.CreateTemplate().Draw(newPage, new PointF(0, 0), loLayout);
                 }
                 newPdf.SaveToFile($"{env.WebRootPath}\\{"Test.html"}", FileFormat.HTML);
-                //string sourcePdf = path;
-                //string targetHtml = $"{env.WebRootPath}\\{"Test.html"}";
-                //PdfToHtmlNet.Converter c = new PdfToHtmlNet.Converter();
-                //c.ConvertToFile(sourcePdf, targetHtml);
-                //PdfReader reader = new PdfReader(path);
-                //string text = string.Empty;
-                //for (int page = 1; page <= reader.NumberOfPages; page++)
-                //{
-                //    text += PdfTextExtractor.GetTextFromPage(reader, page);
-                //}
-                //var ffs = System.IO.File.CreateText($"{env.WebRootPath}\\{"Test.html"}");
-                //ffs.Write(text, 0, text.Length);
-                //ffs.Close();
             }
             if (uploadedFile.FileName.EndsWith("docx"))
             {
@@ -62,12 +49,19 @@ namespace Duck.Server.Controllers
                 var pathh = $"{env.WebRootPath}\\{"Test.html"}";
                 using (FileStream fss = System.IO.File.Create(pathh))
                 {
-                    Byte[] info = new UTF8Encoding(true).GetBytes(html);
+                    byte[] info = new UTF8Encoding(true).GetBytes(html);
                     fss.Write(info, 0, info.Length);
                 }
-                var warnings = resultt.Warnings;
-
             }
+            byte[] origin = System.IO.File.ReadAllBytes($"{env.WebRootPath}\\{"Test.html"}");
+            var compressed = GetMockCompressedData(origin);
+            var fileS = System.IO.File.Create($"{env.WebRootPath}\\{"Compressed.html"}");
+            fileS.Write(compressed, 0,compressed.Length);
+            fileS.Close();
+        }
+        private byte[] GetMockCompressedData(byte[]doc)
+        {
+            return doc;
         }
     }
 }

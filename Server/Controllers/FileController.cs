@@ -24,6 +24,7 @@ namespace Duck.Server.Controllers
             this.env = env;
         }
 
+        [HttpPost]
         public async Task<ActionResult<OpenDataBotModel>> SaveDoc(OpenDataBotModel Request)
         {
             if (Request.Number == null)
@@ -42,6 +43,7 @@ namespace Duck.Server.Controllers
                     count = 1,
                     items = new[] { new { link = "https://opendatabot.ua/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4" } }
                 })
+
                 .Verifiable();
 
             const string BaseUrl = "https://opendatabot.com";
