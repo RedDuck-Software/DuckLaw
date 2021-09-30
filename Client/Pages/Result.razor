@@ -7,6 +7,7 @@
 @inject ISnackbar Snackbar
 @inject IJSRuntime JsRuntime
 @using Duck.Shared
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-around">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,23 +23,30 @@
     </div>
 </nav>
 
-<div id="includedContent"></div>
-<div class="container">
-        <div class="col-lg" id="sandbox">
-            <div id="htmldisplayer"></div>
+<div class="row align-items-start">
+    <div class="col-sm-12 col-md-6" id="sandbox">
+        <div class="card mt-3">
+            <div class="card-body" id="htmldisplayer"></div>
         </div>
-        <div class="col-lg">
-            <div id="htmldisplayerTest"></div>
-        </div>
-    <hr />
-    <div class="form-row">
-            <label for="exampleFormControlTextarea1">Залиште відгук для адміністрації сайта</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
     </div>
-    <div class="row justify-content-center">
-        <button style="background: #5A0000" type="button" @onclick="Send" class="btn btn-primary mt-2 mb-2">Отправить</button>
+    <div class="col-sm-12 col-md-6" id="sandbox">
+        <div class="card mt-3">
+            <div class="card-body" id="htmldisplayerTest"></div>
+        </div>
     </div>
 </div>
+<hr />
+
+<div class="form-row">
+    <label for="exampleFormControlTextarea1">Залиште відгук для адміністрації сайта</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1 " cols="90" rows="5"></textarea>
+</div>
+<div class="row justify-content-center">
+    <button style="background: #5A0000" type="button" @onclick="Send" class="btn btn-primary mt-2 mb-2">Отправить</button>
+</div>
+
+
+
 @code {
     ParsePage comment = new ParsePage();
     private async void Send()
