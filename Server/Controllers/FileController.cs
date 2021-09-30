@@ -101,7 +101,7 @@ namespace Duck.Server.Controllers
         [HttpGet]
         public string GetDoc(string url)
         {
-            return System.IO.File.ReadAllText(($"{env.WebRootPath}\\{"Ita.html"}"));
+            return System.IO.File.ReadAllText($"{env.WebRootPath}\\{"Ita.html"}").Replace("<p>", "<br>").Replace("</p>", "<br>");
         }
         [HttpPost("saveComment")]
         public async Task<bool> SaveUserComment(ParsePage request)
