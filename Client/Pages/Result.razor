@@ -14,9 +14,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-around" id="navbarTogglerDemo03">
-        <form method="get" action="Test.html">
-            <button class="btn btn-dark" type="submit"><i class="fa fa-fw fa-download"></i>Сохранить</button>
-        </form>
+        <button class="btn btn-dark" @onclick="Save" ><i class="fa fa-fw fa-download"></i>Сохранить</button>
         <form class="form-inline my-12 my-lg-0">
             <button class="btn btn-dark" id="openPopup" type="button" @onclick="OnButtonClicked"><i class="fa fa-fw fa-pencil"></i>Highlight Text</button>
         </form>
@@ -71,5 +69,12 @@
     public async Task OnButtonClicked()
     {
         await JsRuntime.InvokeVoidAsync("HighlightText");
+    }
+
+    [Inject] public BlazorDownloadFile.IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
+    public async Task Save()
+    {
+        await BlazorDownloadFileService.DownloadFileFromText("Result.html", FileContent, "text/html");
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
+using BlazorDownloadFile;
 
 namespace Duck.Client
 {
@@ -25,6 +26,8 @@ namespace Duck.Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrlBase) });
 
             Console.WriteLine("url base: " + apiUrlBase);
+
+            builder.Services.AddBlazorDownloadFile();
 
             builder.Services.AddScoped<IService, Servicess>();
             builder.Services.AddMudServices();
