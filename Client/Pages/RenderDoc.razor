@@ -122,6 +122,7 @@
 </EditForm>
 
 @code {
+    const int maximumFileSize = 10_485_760; // 10 MiB
 
     Duck.Shared.OpenDataBotModel render = new Duck.Shared.OpenDataBotModel();
 
@@ -133,7 +134,13 @@
             {
                 if (file.Name.EndsWith("pdf") || file.Name.EndsWith("docx") || file.Name.EndsWith("doc"))
                 {
-                    Stream stream = file.OpenReadStream(1000000);
+                    if (file.Size > maximumFileSize)
+                    {
+                        Console.WriteLine("File is too large");
+                        continue;
+                    }
+
+                    Stream stream = file.OpenReadStream(maximumFileSize);
                     MemoryStream ms = new MemoryStream();
                     await stream.CopyToAsync(ms);
                     stream.Close();
