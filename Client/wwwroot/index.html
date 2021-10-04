@@ -43,7 +43,7 @@
         }
     </script>
     <script>
-        (function () {
+        function aboba() {
             var t = '';
             var CONTAINER_ID = '5kjl3_container_id';
             var Highlight_Icon = '<svg id="Capa_1" enable-background="new 0 0 512.354 512.354" height="24" viewBox="0 0 512.354 512.354" width="24" xmlns="http://www.w3.org/2000/svg"><g><path d="m416.013 457.001h-144c-8.284 0-15 6.716-15 15s6.716 15 15 15h144c8.284 0 15-6.716 15-15s-6.716-15-15-15z"/><path d="m66.692 399.962-62.212 61.36c-9.52 9.39-2.863 25.679 10.533 25.679h97c3.978 0 7.793-1.58 10.606-4.393l13.359-13.359z"/><path d="m106.787 280.057c-16.745 17.635-23.472 42.997-17.558 66.655 2.557 10.228 1.337 20.958-3.092 30.269l72.898 72.898c9.312-4.43 20.041-5.649 30.268-3.092 23.682 5.921 49.012-.829 66.643-17.57z"/><path d="m497.513 90.178-43.213-46.814c-20.73-22.458-55.528-24.106-78.296-3.868l-247.421 219.93 148.147 148.147 220.964-241.679c19.602-21.44 19.552-54.338-.181-75.716z"/></g></svg>';
@@ -64,12 +64,6 @@
                     }
                 }
             ];
-
-            var enc = encodeURI;
-
-            function encQ(s) {
-                return enc('"' + s + '"');
-            }
 
             function setStyle(el, obj, val) {
                 var styles = (el.getAttribute('style') || '').split(';');
@@ -145,7 +139,7 @@
                     display: 'inline-block',
                     background: defaultConfig.bubbleColor,
                     padding: '0 4px',
-                    'border' : '1px solid black'
+                    'border': '1px solid black'
                 });
                 var downCarrot = document.createElement('div');
                 setStyle(downCarrot, {
@@ -218,13 +212,37 @@
                     e.parentElement.removeChild(e);
                 }
             }
+
             function init(customConfig) {
                 config = defaultConfig;
                 Object.keys(customConfig || {}).forEach(function (k) {
                     config[k] = customConfig[k];
                 });
-                document.onmouseup = document.ontouchend = showHighlightOptions;
-                document.onmousedown = document.ontouchstart = clear;
+
+                let areaFlag;
+
+                document.onmouseup = document.ontouchend = function (e) {
+                    if (e.path.find(s => s?.classList?.contains("selectable-text-area-1")) == e.path.find(s => s?.classList?.contains("selectable-text-area-2"))) {
+                        return;
+                    }
+
+                    if (areaFlag === !Boolean(e.path.find(s => s?.classList?.contains("selectable-text-area-1")))
+                        || areaFlag === Boolean(e.path.find(s => s?.classList?.contains("selectable-text-area-2")))) {
+                        return showHighlightOptions();
+                    }
+                };
+
+                document.onmousedown = document.ontouchstart = function (e) {
+                    if (e.path.find(s => s?.classList?.contains("selectable-text-area-1"))) {
+                        areaFlag = false;
+                    } else if (e.path.find(s => s?.classList?.contains("selectable-text-area-2"))) {
+                        areaFlag = true;
+                    } else {
+                        areaFlag = undefined;
+                    }
+
+                    return clear();
+                }
             }
 
             window.TinyQ = {
@@ -232,14 +250,13 @@
                     init(config)
                 }
             }
+        };
 
-        })();</script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function (event) {
-            window.TinyQ.init();
-        });
-    </script>
-    <script>
+        window.tiniqInit = () => {
+            aboba()
+            window.TinyQ.init()
+        };
+
         function accessDOMElement(name) {
             return document.getElementById(name).innerHTML;
         }
