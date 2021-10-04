@@ -24,12 +24,12 @@
 <div class="row align-items-start">
     <div class="col-sm-12 col-md-6" id="sandbox">
         <div class="card card-main mt-3">
-            <div class="card-body" id="htmldisplayer"></div>
+            <div class="card-body selectable-text-area-1" id="htmldisplayer"></div>
         </div>
     </div>
     <div class="col-sm-12 col-md-6" id="sandbox">
         <div class="card card-main mt-3">
-            <div class="card-body" id="htmldisplayerTest"></div>
+            <div class="card-body selectable-text-area-2" id="htmldisplayerTest"></div>
         </div>
     </div>
 </div>
@@ -64,6 +64,7 @@
         FileContent = await serv.GetFile();
         await JsRuntime.InvokeVoidAsync("SetDiv", FileContent);
         await JsRuntime.InvokeVoidAsync("SetDivTest", FileContent);
+        await JsRuntime.InvokeVoidAsync("tiniqInit");
         return FileContent;
     }
     public async Task OnButtonClicked()
