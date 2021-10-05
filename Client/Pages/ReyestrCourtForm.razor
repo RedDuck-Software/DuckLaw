@@ -20,7 +20,7 @@
                                 <option value="">Оберіть</option>
                                 @foreach (var value in openDataBotModel.Stages)
                                 {
-                                    <option value="@value.Value">@value.Name</option>
+                                <option value="@value.Value">@value.Name</option>
                                 }
                             </InputSelect>
                         </div>
@@ -33,7 +33,7 @@
                                 <option value="0" selected>Оберіть</option>
                                 @foreach (var value in openDataBotModel.JudgmentCodes)
                                 {
-                                    <option value="@value.Value">@value.Name</option>
+                                <option value="@value.Value">@value.Name</option>
                                 }
                             </InputSelect>
                         </div>
@@ -112,11 +112,22 @@
                             <InputText @bind-Value="openDataBotModel.Text" class="form-control" />
                         </div>
                     </div>
-                </div>
+                </div>                
                 <div class="row justify-content-center border-top">
-                    <button type="submit" class="btn btn-danger m-3">Пошук</button>
+                    <button type="submit" class="btn btn-danger m-3" disabled="@Loading">
+                        Пошук
+                        @if (Loading)
+                        {
+                            <span class="spinner-border spinner-border-sm mb-1 ml-1"></span>
+                        }
+                    </button>
                 </div>
             </EditForm>
         </div>
     </div>
 </div>
+
+@if (Search)
+{
+    <SearchResult CourtSearchRequest="@CourtSearchRequest"></SearchResult>
+}

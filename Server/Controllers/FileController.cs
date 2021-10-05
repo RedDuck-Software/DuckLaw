@@ -11,6 +11,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Duck.Shared.Requests;
+using Duck.Shared.Response;
+using Newtonsoft.Json;
 
 namespace Duck.Server.Controllers
 {
@@ -18,6 +21,8 @@ namespace Duck.Server.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        public string apiKey => "YOUR KEY MUST BE HERE";
+        
         private readonly IWebHostEnvironment env;
         public FileController(IWebHostEnvironment env)
         {
@@ -119,5 +124,37 @@ namespace Duck.Server.Controllers
             return true;
         }
 
+        [HttpPost("search-result")]
+        public ActionResult<CourtSearchResultsResponse> SearchResult(CourtSearchRequest requestData)
+        {
+            #region Use this if u have API key
+
+            // if (requestData is null)
+            // {
+            //     return BadRequest("Request can not be empty");
+            // }
+            //
+            // var request = new HttpRequestMessage(HttpMethod.Post, "https://opendatabot.com/api/v2/court");
+            //
+            // requestData.ApiKey = apiKey;
+            //
+            // request.Content = new StringContent(
+            //     JsonConvert.SerializeObject(requestData, Formatting.Indented),
+            //     Encoding.UTF8,
+            //     "application/json");
+            //
+            // var response = new HttpClient().Send(request);
+            //
+            // CourtSearchResultsResponse resultsResponse =
+            //     JsonConvert.DeserializeObject<CourtSearchResultsResponse>(response.Content.ReadAsStringAsync().Result);
+
+            #endregion
+
+            var response = "{'status':'ok','count':3,'items':[{'doc_id':1,'court_code':1521,'court_name':'Овідіопольський районний суд Одеської області','judgment_code':3,'judgment_name':'Кримінальне','justice_code':2,'justice_name':'Вирок','category_code':2,'category_name':'Клопотання слідчого, прокурора, сторони кримінального провадження','cause_number':'509/3997/18','adjudication_date':'2018-09-03 00:00:00+03','date_publ':'2018-09-03 00:00:00+03','receipt_date':'2018-09-03 00:00:00+03','judge':'Попов І.В.','link':'https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4'},{'doc_id':1,'court_code':1521,'court_name':'Овідіопольський районний суд Одеської області','judgment_code':3,'judgment_name':'Кримінальне','justice_code':2,'justice_name':'Вирок','category_code':2,'category_name':'Клопотання слідчого, прокурора, сторони кримінального провадження','cause_number':'509/3997/18','adjudication_date':'2018-09-03 00:00:00+03','date_publ':'2018-09-03 00:00:00+03','receipt_date':'2018-09-03 00:00:00+03','judge':'Попов І.В.','link':'https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4'},{'doc_id':1,'court_code':1521,'court_name':'Овідіопольський районний суд Одеської області','judgment_code':3,'judgment_name':'Кримінальне','justice_code':2,'justice_name':'Вирок','category_code':2,'category_name':'Клопотання слідчого, прокурора, сторони кримінального провадження','cause_number':'509/3997/18','adjudication_date':'2018-09-03 00:00:00+03','date_publ':'2018-09-03 00:00:00+03','receipt_date':'2018-09-03 00:00:00+03','judge':'Попов І.В.','link':'https://opendatabot.com/court/76195512-b22b9fbfbb31d6aca70b89d1257287a4'}]}";
+            
+            var resultsResponse = JsonConvert.DeserializeObject<CourtSearchResultsResponse>(response);
+
+            return Ok(resultsResponse);
+        }
     }
 }
