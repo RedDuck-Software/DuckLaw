@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Duck.Shared;
+using Duck.Shared.Requests;
+using Duck.Shared.Response;
 
 namespace Duck.Client.Service
 {
@@ -20,6 +22,13 @@ namespace Duck.Client.Service
             var result = await _http.PostAsJsonAsync("api/File", request);
             return await result.Content.ReadFromJsonAsync<OpenDataBotModel>();
         }
+
+        public async Task<CourtSearchResultsResponse> SearchCourt(CourtSearchRequest request)
+        {
+            var result = await _http.PostAsJsonAsync("api/File/search-result", request);
+            return await result.Content.ReadFromJsonAsync<CourtSearchResultsResponse>();
+        }
+        
         public async Task<string> GetFile()
         {
             var result = await _http.GetAsync("api/File");
